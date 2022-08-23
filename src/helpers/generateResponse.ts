@@ -10,73 +10,78 @@ export default function generateResponse(payloadShape: {[key: string]: any}) {
   const results: {[key: string]: any} = {}
 
   Object.keys(payloadShape).forEach(key => {
-    const [datatype, _decorators, isArray] = parseDatatype(payloadShape[key])
-    let decorators = _decorators as string[]
+    if (typeof payloadShape[key] === 'object') {
+      results[key] = generateResponse(payloadShape[key])
 
-    switch(datatype) {
-    case 'string':
-      results[key] = isArray ?
-        [
-          faker.lorem.word(),
-          faker.lorem.word(),
-        ] :
-        faker.lorem.word()
-      break
+    } else {
+      const [datatype, _decorators, isArray] = parseDatatype(payloadShape[key])
+      let decorators = _decorators as string[]
 
-    case 'number':
-      results[key] = isArray ?
-        [
-          parseInt(faker.datatype.bigInt().toString()),
+      switch(datatype) {
+      case 'string':
+        results[key] = isArray ?
+          [
+            faker.lorem.word(),
+            faker.lorem.word(),
+          ] :
+          faker.lorem.word()
+        break
+
+      case 'number':
+        results[key] = isArray ?
+          [
+            parseInt(faker.datatype.bigInt().toString()),
+            parseInt(faker.datatype.bigInt().toString())
+          ] :
           parseInt(faker.datatype.bigInt().toString())
-        ] :
-        parseInt(faker.datatype.bigInt().toString())
-      break
+        break
 
-    case 'bool':
-      results[key] = isArray ?
-        [
-          faker.datatype.boolean(),
+      case 'bool':
+        results[key] = isArray ?
+          [
+            faker.datatype.boolean(),
+            faker.datatype.boolean()
+          ] :
           faker.datatype.boolean()
-        ] :
-        faker.datatype.boolean()
-      break
+        break
 
-    case 'date':
-      if (decorators.length) {
-        const dateFormat = getDateFormatFromDecorators(decorators)
-        if (!dateFormat) throw `Unrecognized date format: ${dateFormat}`
+      case 'date':
+        if (decorators.length) {
+          const dateFormat = getDateFormatFromDecorators(decorators)
+          if (!dateFormat) throw `Unrecognized date format: ${dateFormat}`
 
-        results[key] = isArray ? [ dateString(dateFormat), dateString(dateFormat) ] : dateString(dateFormat)
+          results[key] = isArray ? [ dateString(dateFormat), dateString(dateFormat) ] : dateString(dateFormat)
 
-      } else {
-        results[key] = isArray ?
-          [
-            dateString(AcceptedDateFormats.YYYYMMDD),
-            dateString(AcceptedDateFormats.YYYYMMDD),
-          ] :
-          dateString(AcceptedDateFormats.YYYYMMDD)
+        } else {
+          results[key] = isArray ?
+            [
+              dateString(AcceptedDateFormats.YYYYMMDD),
+              dateString(AcceptedDateFormats.YYYYMMDD),
+            ] :
+            dateString(AcceptedDateFormats.YYYYMMDD)
+        }
+        break
+
+      case 'datetime':
+        if (decorators.length) {
+          const dateFormat = getDatetimeFormatFromDecorators(decorators)
+          if (!dateFormat) throw `Unrecognized datetime format: ${dateFormat}`
+
+          results[key] = isArray ? [ datetimeString(dateFormat), datetimeString(dateFormat) ] : datetimeString(dateFormat)
+
+        } else {
+          results[key] = isArray ?
+            [
+              new Date().toISOString(),
+              new Date().toISOString(),
+            ] :
+            new Date().toISOString()
+        }
+        break
+
+      default:
+        throw `Unrecognized datatype for field ${key}: ${payloadShape[key]}`
       }
-      break
-
-    case 'datetime':
-      if (decorators.length) {
-        const dateFormat = getDatetimeFormatFromDecorators(decorators)
-        if (!dateFormat) throw `Unrecognized datetime format: ${dateFormat}`
-
-        results[key] = isArray ? [ datetimeString(dateFormat), datetimeString(dateFormat) ] : datetimeString(dateFormat)
-
-      } else {
-        results[key] = isArray ?
-          [
-            new Date().toISOString(),
-            new Date().toISOString(),
-          ] :
-          new Date().toISOString()
-      }
-      break
-
-    default:
-      throw `Unrecognized datatype for field ${key}: ${payloadShape[key]}`
     }
   })
   return results

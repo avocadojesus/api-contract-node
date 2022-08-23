@@ -1,6 +1,5 @@
-import express, { Express, Request, Response } from 'express'
+import express, { Express } from 'express'
 import fs from 'fs'
-import { faker } from '@faker-js/faker'
 import generateResponse from './helpers/generateResponse'
 
 const app: Express = express()
@@ -39,12 +38,9 @@ Object.keys(endpoints).forEach(endpointKey => {
   default:
     throw `Unrecognized HTTP method discovered in ${process.env.ENDPOINTS_PATH}: ${httpMethod}`
   }
-  // app.get('/', (_, res) => {
-  //   res.send('hello world')
-  // })
 })
 
-app.listen(3000, () => {
-  console.log("listening on the port 3000...")
+app.listen(port, () => {
+  console.log(`listening on the port ${port}...`)
 })
 
