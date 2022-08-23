@@ -6,10 +6,6 @@ const app: Express = express()
 const port = process.env.API_CONTRACT_PORT || 4000
 console.log("FROM TEST SERVER", __dirname)
 
-if (!process.env.ENDPOINTS_PATH) {
-  throw 'cannot start test api server without first setting path to endpoints.json (use ENDPOINTS_PATH env to set this)'
-}
-
 const endpointsPath = process.env.ENDPOINTS_PATH || '../../../../endpoints.json'
 console.log(`extracting endpoints.json file... at ${endpointsPath}`)
 const results = fs.readFileSync(endpointsPath)?.toString()
