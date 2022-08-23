@@ -93,8 +93,8 @@ server: {
 ```
 
 ## CLI API
-* `ENDPOINTS_PATH` **_[Required]_**: The path to the `endpoints.json` file containing the schema you want it to expose
-* `API_CONTRACT_PORT` _[optional]_: specifies the port to run the api contract test server on. If not specified, it will default to `4000`
+* `ENDPOINTS_PATH`: The path to the `endpoints.json` file containing the schema you want it to expose. If not specified, it will look in your project root.
+* `API_CONTRACT_PORT`: specifies the port to run the api contract test server on. If not specified, it will default to `4000`
 
 ## Contract API
 
@@ -193,7 +193,7 @@ They can additionally take on extended parameters (called `decorators` in the co
 {
   "GET:/api/v1/users/:id": {
     "payload_shape": {
-      "amount": "number:float",
+      "amount": "number:float"
     }
   }
 }
