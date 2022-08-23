@@ -12,8 +12,7 @@ This allows the front-end team to spike on an agreed feature as though the backe
 
 # api-contract-test-server
 
-This repo provides a dummy REST server which satisfies
-test server running express which serves dummy endpoints based on supplied `api-contract.json` file. This repo provides a dummy REST api server which can be bootstrapped from this json file, and which will serve payload shapes based on the payload schema described for each endpoint within a file.
+This repo provides a dummy REST server running express which serves dummy endpoints based on supplied `api-contract.json` file. It serves payload shapes based on the payload schema described for each endpoint within a file.
 
 # Installation
 
@@ -23,7 +22,7 @@ yarn add https://github.com/avocadojesus/api-contract-test-server.git
 
 # Setup
 
-First off, it is recommended that you use this repo in conjuntion with feature/end-to-end tests. Commonly, this is done by leveraging the jest-puppeteer package, which will is also poised to conveniently launch a development server which tails your spec runs.
+It is recommended that you use this repo in conjunction with feature/end-to-end tests. Commonly, this is done by leveraging the jest-puppeteer package, which will is also poised to conveniently launch a development server which tails your spec runs.
 
 If your package is not already set up with jest-puppeteer, you will first need to make sure to import the packages:
 
