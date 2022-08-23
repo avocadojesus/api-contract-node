@@ -1,0 +1,12 @@
+{
+  "GET:/api/v1": {
+    "payload_shape": {
+      "user": {
+        "id": "number",
+        "email": "string",
+        "name": "string",
+        "likes_cats": "bool"
+      }
+    }
+  }
+}

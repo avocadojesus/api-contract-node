@@ -29,10 +29,12 @@ export const STAMP_MICRO_REGEX = /^[A-Za-z]{3} \d{2} \d{2}:\d{2}:\d{2}\.\d+/
 export const STAMP_MILLI_REGEX = /^[A-Za-z]{3} \d{2} \d{2}:\d{2}:\d{2}\.\d+/
 export const STAMP_NANO_REGEX = /^[A-Za-z]{3} \d{2} \d{2}:\d{2}:\d{2}\.\d+/
 export const UNIX_REGEX = /^[a-zA-Z]+ [a-zA-Z]+ \d{2} \d{2}:\d{2}:\d{2} [A-Z]{3} \d{4}$/
+export const ISO861_DATETIME_REGEX = /\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d*(\+|-)\d{2}:\d{2}/
 
 export enum AcceptedDatetimeFormats {
   Ansic='ansic',
   Kitchen='kitchen',
+  ISO861='iso861',
   RFC1123='rfc1123',
   RFC1123Z='rfc1123z',
   RFC3339='rfc3339',
@@ -57,6 +59,10 @@ export const DATETIME_FORMATS = {
   [AcceptedDatetimeFormats.Kitchen]: {
     luxon: KITCHEN_LUXON_FORMAT,
     regex: KITCHEN_REGEX,
+  },
+  [AcceptedDatetimeFormats.ISO861]: {
+    luxon: '',
+    regex: ISO861_DATETIME_REGEX,
   },
   [AcceptedDatetimeFormats.RFC1123]: {
     luxon: RFC1123_LUXON_FORMAT,

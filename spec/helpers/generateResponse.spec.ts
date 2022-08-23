@@ -1,10 +1,6 @@
 import generateResponse from '../../src/helpers/generateResponse'
-import { DATETIME_FORMATS } from '../../src/config/datetime-formats'
-const ISO861_DATE_REGEX = /\d{4}-\d{2}-\d{2}/
-const YYMMDD_REGEX = /\d{2}-\d{2}-\d{2}/
-const MMDDYY_REGEX = /\d{2}-\d{2}-\d{2}/
-const MMDDYYYY_REGEX = /\d{2}-\d{2}-\d{4}/
-const ISO861_DATETIME_REGEX = /\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d*Z/
+import { DATETIME_FORMATS, ISO861_DATETIME_REGEX } from '../../src/config/datetime-formats'
+import { DATE_FORMATS } from '../../src/config/date-formats'
 
 describe ('generateResponse', () => {
   context ('basic datatypes', () => {
@@ -25,12 +21,12 @@ describe ('generateResponse', () => {
 
     it ('can parse a date response', () => {
       const res = generateResponse({ created_at: 'date' })
-      expect(res.created_at).toMatch(ISO861_DATE_REGEX)
+      expect(res.created_at).toMatch(DATE_FORMATS.yyyymmdd.regex)
     })
 
     it ('can parse a datetime response', () => {
       const res = generateResponse({ created_at: 'datetime' })
-      expect(res.created_at).toMatch(ISO861_DATETIME_REGEX)
+      expect(res.created_at).toMatch(DATETIME_FORMATS.iso861.regex)
     })
   })
 
@@ -59,8 +55,8 @@ describe ('generateResponse', () => {
     it ('can parse a date[] response', () => {
       const res = generateResponse({ dates: 'date[]' })
       expect(res.dates.length).toEqual(2)
-      expect(res.dates[0]).toMatch(ISO861_DATE_REGEX)
-      expect(res.dates[1]).toMatch(ISO861_DATE_REGEX)
+      expect(res.dates[0]).toMatch(DATE_FORMATS.yyyymmdd.regex)
+      expect(res.dates[1]).toMatch(DATE_FORMATS.yyyymmdd.regex)
     })
 
     it ('can parse a datetime[] response', () => {
@@ -71,25 +67,54 @@ describe ('generateResponse', () => {
     })
   })
 
+  context ('number decorators', () => {
+    it ('can parse number:bigint response', () => {
+      const res = generateResponse({ cost: 'number:bigint' })
+      expect(res.cost.toString()).toMatch(/^\d{1,}$/)
+    })
+
+    it ('can parse number:float response', () => {
+      const res = generateResponse({ cost: 'number:float' })
+      expect(res.cost.toString()).toMatch(/^\d{1,}\.\d{1,}$/)
+    })
+  })
+
+  context ('string decorators', () => {
+    it ('can parse string:email response', () => {
+      const res = generateResponse({ email: 'string:email' })
+      expect(res.email).toMatch(/.*@.*\..*/)
+    })
+
+    it ('can parse string:name response', () => {
+      const res = generateResponse({ name: 'string:name' })
+      expect(res.name).toMatch(/^[A-Za-z]*$/)
+    })
+
+    it ('can parse string:fullname response', () => {
+      const res = generateResponse({ name: 'string:fullname' })
+      expect(res.name).toMatch(/^[A-Za-z]* [A-Za-z]*\s?[A-Za-z]{0,}$/)
+    })
+  })
+
   context ('date decorators', () => {
     it ('can parse a date:yyyymmdd response', () => {
       const res = generateResponse({ date: 'date:yyyymmdd' })
-      expect(res.date).toMatch(ISO861_DATE_REGEX)
+      expect(res.date).toMatch(DATE_FORMATS.yyyymmdd.regex)
     })
 
     it ('can parse a date:yymmdd response', () => {
       const res = generateResponse({ date: 'date:yymmdd' })
-      expect(res.date).toMatch(YYMMDD_REGEX)
+      expect(res.date).toMatch(DATE_FORMATS.yymmdd.regex)
     })
 
     it ('can parse a date:mmddyyyy response', () => {
       const res = generateResponse({ date: 'date:mmddyyyy' })
-      expect(res.date).toMatch(MMDDYYYY_REGEX)
+      expect(res.date).toMatch(DATE_FORMATS.mmddyyyy.regex)
     })
 
     it ('can parse a date:mmddyy response', () => {
       const res = generateResponse({ date: 'date:mmddyy' })
-      expect(res.date).toMatch(MMDDYY_REGEX)
+      expect(res.date).toMatch(DATE_FORMATS.mmddyy.regex)
     })
   })
 
