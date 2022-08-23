@@ -5,7 +5,13 @@
         "id": "number",
         "email": "string:email",
         "name": "string:name",
-        "likes_cats": "bool"
+        "likes_cats": "bool",
+        "subscription_cost": "number:float",
+        "created_at": "datetime:rfc850",
+        "stuff": {
+          "piano": "bool",
+          "guitar": "bool"
+        }
       }
     }
   }
