@@ -3,8 +3,8 @@
     "payload_shape": {
       "user": {
         "id": "number",
-        "email": "string",
-        "name": "string",
+        "email": "string:email",
+        "name": "string:name",
         "likes_cats": "bool"
       }
     }
