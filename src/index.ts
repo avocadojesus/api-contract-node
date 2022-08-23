@@ -10,11 +10,12 @@ if (!process.env.ENDPOINTS_PATH) {
   throw 'cannot start test api server without first setting path to endpoints.json (use ENDPOINTS_PATH env to set this)'
 }
 
-console.log('extracting endpoints.json file...')
-const results = fs.readFileSync(process.env.ENDPOINTS_PATH)?.toString()
+const endpointsPath = process.env.ENDPOINTS_PATH || '../../../../endpoints.json'
+console.log(`extracting endpoints.json file... at ${endpointsPath}`)
+const results = fs.readFileSync(endpointsPath)?.toString()
 
 if (!results) {
-  throw 'endpoints.json file was not found.'
+  throw 'endpoints.json file was not found. looked at: ' + __dirname + '/' + endpointsPath
 }
 
 let endpoints: {[key: string]: any}
