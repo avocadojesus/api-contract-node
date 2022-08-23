@@ -2,10 +2,9 @@ import { faker } from '@faker-js/faker'
 import { DateTime } from 'luxon'
 import getDateFormatFromDecorators from './getDateFormatFromDecorators'
 import getDatetimeFormatFromDecorators from './getDatetimeFormatFromDecorators'
-import mmddyyyy from './mmddyyyy'
-import mmddyy from './mmddyy'
 import parseDatatype from './parseDatatype'
-import { DATETIME_FORMATS, AcceptedDatetimeFormats } from '../config/formats'
+import { DATETIME_FORMATS, AcceptedDatetimeFormats } from '../config/datetime-formats'
+import { DATE_FORMATS, AcceptedDateFormats } from '../config/date-formats'
 
 export default function generateResponse(payloadShape: {[key: string]: any}) {
   const results: {[key: string]: any} = {}
@@ -45,22 +44,24 @@ export default function generateResponse(payloadShape: {[key: string]: any}) {
     case 'date':
       if (decorators.length) {
         const dateFormat = getDateFormatFromDecorators(decorators)
+        if (!dateFormat) throw `Unrecognized date format: ${dateFormat}`
+
         results[key] = isArray ? [ dateString(dateFormat), dateString(dateFormat) ] : dateString(dateFormat)
 
       } else {
         results[key] = isArray ?
           [
-            dateString('yyyymmdd'),
-            dateString('yyyymmdd'),
+            dateString(AcceptedDateFormats.YYYYMMDD),
+            dateString(AcceptedDateFormats.YYYYMMDD),
           ] :
-          dateString('yyyymmdd')
+          dateString(AcceptedDateFormats.YYYYMMDD)
       }
       break
 
     case 'datetime':
       if (decorators.length) {
         const dateFormat = getDatetimeFormatFromDecorators(decorators)
-        if (!dateFormat) throw `Unrecognized date format: ${dateFormat}`
+        if (!dateFormat) throw `Unrecognized datetime format: ${dateFormat}`
 
         results[key] = isArray ? [ datetimeString(dateFormat), datetimeString(dateFormat) ] : datetimeString(dateFormat)
 
@@ -81,23 +82,28 @@ export default function generateResponse(payloadShape: {[key: string]: any}) {
   return results
 }
 
-function dateString(format: string) {
-  switch(format) {
-  case 'yyyymmdd':
-    return new Date().toISOString().split('T')[0]
+function dateString(format: AcceptedDateFormats) {
+  const date = DateTime.now()
+  const formatConfig = DATE_FORMATS[format]
+  if (!formatConfig) throw `Unrecognized date format ${format}`
 
-  case 'yymmdd':
-    return new Date().toISOString().split('T')[0].replace(/^\d\d/, '')
+  return date.toFormat(formatConfig.luxon)
+  // switch(format) {
+  // case 'yyyymmdd':
+  //   return new Date().toISOString().split('T')[0]
 
-  case 'mmddyyyy':
-    return mmddyyyy(new Date())
+  // case 'yymmdd':
+  //   return new Date().toISOString().split('T')[0].replace(/^\d\d/, '')
 
-  case 'mmddyy':
-    return mmddyy(new Date())
+  // case 'mmddyyyy':
+  //   return mmddyyyy(new Date())
 
-  default:
-    throw `unrecognized date format: ${format}`
-  }
+  // case 'mmddyy':
+  //   return mmddyy(new Date())
+
+  // default:
+  //   throw `unrecognized date format: ${format}`
+  // }
 }
 
 function datetimeString(format: AcceptedDatetimeFormats) {

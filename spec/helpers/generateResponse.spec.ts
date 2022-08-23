@@ -1,5 +1,5 @@
 import generateResponse from '../../src/helpers/generateResponse'
-import { DATETIME_FORMATS } from '../../src/config/formats'
+import { DATETIME_FORMATS } from '../../src/config/datetime-formats'
 const ISO861_DATE_REGEX = /\d{4}-\d{2}-\d{2}/
 const YYMMDD_REGEX = /\d{2}-\d{2}-\d{2}/
 const MMDDYY_REGEX = /\d{2}-\d{2}-\d{2}/
