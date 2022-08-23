@@ -3,7 +3,8 @@ import fs from 'fs'
 import generateResponse from './helpers/generateResponse'
 
 const app: Express = express()
-const port = process.env.PORT || 3000
+const port = process.env.API_CONTRACT_PORT || 4000
+console.log("FROM TEST SERVER", __dirname)
 
 if (!process.env.ENDPOINTS_PATH) {
   throw 'cannot start test api server without first setting path to endpoints.json (use ENDPOINTS_PATH env to set this)'
@@ -27,12 +28,24 @@ Object.keys(endpoints).forEach(endpointKey => {
   const [httpMethod, path] = endpointKey.split(':')
 
   switch(httpMethod) {
+  case 'GET':
+    app.get(path, (_, res) => res.json(generateResponse(endpoints[endpointKey].payload_shape)))
+    break
+
   case 'POST':
     app.post(path, (_, res) => res.json(generateResponse(endpoints[endpointKey].payload_shape)))
     break
 
-  case 'GET':
-    app.get(path, (_, res) => res.json(generateResponse(endpoints[endpointKey].payload_shape)))
+  case 'PUT':
+    app.put(path, (_, res) => res.json(generateResponse(endpoints[endpointKey].payload_shape)))
+    break
+
+  case 'PATCH':
+    app.patch(path, (_, res) => res.json(generateResponse(endpoints[endpointKey].payload_shape)))
+    break
+
+  case 'DELETE':
+    app.delete(path, (_, res) => res.json(generateResponse(endpoints[endpointKey].payload_shape)))
     break
 
   default:
