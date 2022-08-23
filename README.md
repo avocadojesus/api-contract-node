@@ -77,6 +77,19 @@ module.exports = {
 }
 ```
 
+```js
+describe('api-contract-test-server can launch', () => {
+  beforeAll(async () => {
+    await page.goto('http://localhost:4000/api/v1')
+  })
+
+  it("this won't actually test anything, but it will print the contents of a GET:api/v1 within your api-contract.json file.", async () => {
+    const bodyHTML = await page.evaluate(() =>  document.documentElement.outerHTML);
+    console.log(bodyHTML)
+  })
+})
+```
+
 # Options
 
 Options can be passed via env vars to the underlying command by simply adding them to the server command portion of the `jest-puppeteer.config.js` file, like so:
