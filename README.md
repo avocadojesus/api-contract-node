@@ -51,7 +51,7 @@ module.exports = {
 
 The above jest config works well with `nuxt`, but may need to be tweaked if you are using a different framework or stack. Once you have added this file, you can configure a separate test script for running end-to-end tests, like so:
 
-```json
+```js
 // package.json
 {
   ...
