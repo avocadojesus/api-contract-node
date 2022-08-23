@@ -1,6 +1,6 @@
 # api-contract-test-server
 
-test server running express which serves dummy endpoints based on supplied endpoints.json file
+test server running express which serves dummy endpoints based on supplied api-contract.json file
 
 # Installation
 
@@ -85,7 +85,7 @@ Options can be passed via env vars to the underlying command by simply adding th
 // jest-puppeteer.config.js
 ...
 server: {
-  command: 'cd ./node_modules/api-contract-test-server && yarn build && ENDPOINTS_PATH=<PATH_TO_ENDPOINTS_JSON_FILE> API_CONTRACT_PORT=<YOUR_PORT_HERE> yarn start',
+  command: 'cd ./node_modules/api-contract-test-server && yarn build && API_CONTRACT_PATH=<PATH_TO_API_CONTRACT_JSON_FILE> API_CONTRACT_PORT=<YOUR_PORT_HERE> yarn start',
   port: <YOUR_PORT_HERE>,
   ...
 }
@@ -93,12 +93,12 @@ server: {
 ```
 
 ## CLI API
-* `ENDPOINTS_PATH`: The path to the `endpoints.json` file containing the schema you want it to expose. If not specified, it will look in your project root.
+* `API_CONTRACT_PATH`: The path to the `api-contract.json` file containing the schema you want it to expose. If not specified, it will look in your project root.
 * `API_CONTRACT_PORT`: specifies the port to run the api contract test server on. If not specified, it will default to `4000`
 
 ## Contract API
 
-The contract API refers to the way in which an `endpoints.json` file can be composed. To integrate, one needs to expose all of their endpoints to a json file, carefully exposing the intended types for each param expected in the response payload, like so:
+The contract API refers to the way in which an `api-contract.json` file can be composed. To integrate, one needs to expose all of their endpoints to a json file, carefully exposing the intended types for each param expected in the response payload, like so:
 
 #### Basic example
 
