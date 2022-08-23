@@ -77,7 +77,13 @@ module.exports = {
 }
 ```
 
+### Writing a test
+
+Once all this is set up, you can write a feature spec in the `spec/features` dir, like so:
+
 ```js
+// spec/features/api-contract-test-hello-world.spec.ts
+
 describe('api-contract-test-server can launch', () => {
   beforeAll(async () => {
     await page.goto('http://localhost:4000/api/v1')
