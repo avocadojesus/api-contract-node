@@ -6,7 +6,7 @@ const app: Express = express()
 const port = process.env.API_CONTRACT_PORT || 4000
 console.log("FROM TEST SERVER", __dirname)
 
-const endpointsPath = process.env.ENDPOINTS_PATH || __dirname + '/../../../../../endpoints.json'
+const endpointsPath = process.env.ENDPOINTS_PATH || __dirname + '/../../../../endpoints.json'
 console.log(`extracting endpoints.json file... at ${endpointsPath}`)
 const results = fs.readFileSync(endpointsPath)?.toString()
 
