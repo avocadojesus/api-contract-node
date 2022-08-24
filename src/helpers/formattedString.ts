@@ -3,6 +3,9 @@ import { AcceptedStringFormats } from '../config/string-formats'
 
 export default function formattedString(format: AcceptedStringFormats) {
   switch(format) {
+  case 'uuid':
+    return faker.datatype.uuid()
+
   case 'email':
     return faker.internet.email()
 
@@ -13,6 +16,6 @@ export default function formattedString(format: AcceptedStringFormats) {
     return faker.name.fullName()
 
   default:
-    throw `Unrecognized string format: ${format}`
+    throw `Unable to format string due to unrecognized format: ${format}`
   }
 }

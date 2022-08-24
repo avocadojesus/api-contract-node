@@ -20,7 +20,7 @@ export default function generateValue(format: string) {
   case 'string':
     if (decorators.length) {
       const strFormat = getStringFormatFromDecorators(decorators)
-      if (!strFormat) throw `Unrecognized date format: ${strFormat}`
+      if (!strFormat) throw `Unrecognized string format: ${strFormat}`
 
       return isArray ? [ formattedString(strFormat), formattedString(strFormat) ] : formattedString(strFormat)
 
