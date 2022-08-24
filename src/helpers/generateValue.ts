@@ -43,10 +43,10 @@ export default function generateValue(format: string) {
     } else {
       return isArray ?
         [
-          formattedNumber(AcceptedNumberFormats.BigInt),
-          formattedNumber(AcceptedNumberFormats.BigInt),
+          formattedNumber(AcceptedNumberFormats.Int),
+          formattedNumber(AcceptedNumberFormats.Int),
         ] :
-        formattedNumber(AcceptedNumberFormats.BigInt)
+        formattedNumber(AcceptedNumberFormats.Int)
     }
 
   case 'bool':
