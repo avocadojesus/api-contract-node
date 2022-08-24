@@ -82,7 +82,7 @@ When configuring puppeteer-jest, you will want to include the custom file requir
 
 module.exports = {
   server: {
-    command: 'cd ./node_modules/api-contract-test-server && yarn build && yarn start',
+    command: 'yarn --cwd ./node_modules/api-contract-test-server start',
     launchTimeout: 15000, // the default is 5000, which is generally too short for a dry run.
     debug: true, // set to true if your server is having trouble starting.
   },
