@@ -33,7 +33,7 @@ describe ('generateResponse', () => {
 
     it ('can parse string:fullname response', () => {
       const res = generateResponse({ name: 'string:fullname' })
-      expect(res.name).toMatch(/^[A-Za-z'.]* [A-Za-z'.]*\s?[A-Za-z'.]{0,}$/)
+      expect(res.name).toMatch(/^[A-Za-z'.]* [A-Za-z'.]*\s?[A-Za-z'.]{0,}\s?[A-Za-z'.]{0,}$/)
     })
   })
 })
