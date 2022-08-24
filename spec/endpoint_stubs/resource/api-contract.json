@@ -1,4 +1,9 @@
 {
+  "GET:/api/v1/users": {
+    "payload_shape": {
+      "users": "User[]"
+    }
+  },
   "GET:/api/v1/test": {
     "payload_shape": {
       "user": {
@@ -27,6 +32,14 @@
   "DELETE:/api/v1/test": {
     "payload_shape": {
       "destroy": "bool"
+    }
+  },
+  "config": {
+    "serializers": {
+      "User": {
+        "id": "number",
+        "email": "string:email"
+      }
     }
   }
 }
