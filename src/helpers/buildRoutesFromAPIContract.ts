@@ -2,8 +2,8 @@ import { Express } from 'express'
 import generateResponse from './generateResponse'
 import readApiContractJSON from './readApiContractJSON'
 
-export default function buildRoutesFromAPIContract(app: Express) {
-  const endpoints = readApiContractJSON()
+export default function buildRoutesFromAPIContract(app: Express, endpointJSONPath?: string) {
+  const endpoints = readApiContractJSON(endpointJSONPath)
 
   Object
     .keys(endpoints)
