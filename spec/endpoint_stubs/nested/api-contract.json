@@ -1,5 +1,5 @@
 {
-  "GET:/api/v1": {
+  "GET:/api/v1/:id": {
     "payload_shape": {
       "user": {
         "id": "number",

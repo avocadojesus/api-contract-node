@@ -22,7 +22,8 @@ try {
 }
 
 Object.keys(endpoints).forEach(endpointKey => {
-  const [httpMethod, path] = endpointKey.split(':')
+  const [httpMethod] = endpointKey.split(':')
+  const path = endpointKey.replace(new RegExp(`^${httpMethod}:`), '')
 
   switch(httpMethod) {
   case 'GET':
