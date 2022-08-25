@@ -9,7 +9,7 @@ export default function readApiContractJSON(endpointJSONPath?: string) {
   if (process.env.NODE_ENV !== 'test') console.log(`extracting api-contract.json file... at ${apiContractJSONPath}`)
 
   const results = fs.readFileSync(apiContractJSONPath)?.toString()
-  if (!results) throw 'api-contract.json file was not found. looked at: ' + __dirname + '/' + apiContractJSONPath
+  if (!results) throw 'api-contract.json file was not found. looked at: ' + apiContractJSONPath
 
   let endpoints: { [key: string]: any }
   try {
