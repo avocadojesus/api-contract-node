@@ -1,15 +1,32 @@
-import '../../src/spec'
+import '../../src/spec/jest'
 
-jest.mock('../../src/helpers/readApiContractJSON', () => jest.fn(() => ({
-  'GET:/api/v1': {
-    payload_shape: {
-      id: 'number',
-    }
-  }
-})))
+let mockedValue: { [key: string]: any } = {}
+jest.mock('../../src/helpers/readApiContractJSON', () => jest.fn(() => mockedValue))
+
+function mockReadJSON(payload: { [key: string]: any }) {
+  mockedValue = payload
+}
 
 describe ('toComplyWithAPIContract', () => {
   it ('succeeds when payload matches api-contract.json', () => {
-    expect({ id: 123 }).toComplyWithAPIContract()
+    mockReadJSON({
+      'GET:/api/v1': {
+        payload_shape: {
+          id: 'number',
+        }
+      }
+    })
+    expect({ id: 123 }).toComplyWithAPIContract('get', '/api/v1')
+  })
+
+  it ('fails when payload does not match api-contract.json', () => {
+    mockReadJSON({
+      'GET:/api/v1': {
+        payload_shape: {
+          id: 'number',
+        }
+      }
+    })
+    expect({ id: '123' }).not.toComplyWithAPIContract('get', '/api/v1')
   })
 })
