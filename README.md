@@ -112,6 +112,22 @@ describe('api-contract-test-server can launch', () => {
 })
 ```
 
+Options can be passed via env vars to the underlying command by simply adding them to the server command portion of the `jest-puppeteer.config.js` file, like so:
+
+```js
+// jest-puppeteer.config.js
+...
+server: {
+  command: 'cd ./node_modules/api-contract-test-server && yarn build && API_CONTRACT_PATH=<PATH_TO_API_CONTRACT_JSON_FILE> API_CONTRACT_PORT=<YOUR_PORT_HERE> yarn start',
+  port: <YOUR_PORT_HERE>,
+  ...
+}
+...
+```
+
+* `API_CONTRACT_PATH`: The path to the `api-contract.json` file containing the schema you want it to expose. If not specified, it will look in your project root.
+* `API_CONTRACT_PORT`: specifies the port to run the api contract test server on. If not specified, it will default to `4000`
+
 ### Jest helpers
 Additionally, a jest extension is applied, so if you are running a backend JSON api, you can use this to validate that the shape of your endponts matches your api contract, like so:
 
@@ -159,21 +175,3 @@ which will pass with the following `api-contract.json`:
   }
 }
 ```
-
-## API
-
-Options can be passed via env vars to the underlying command by simply adding them to the server command portion of the `jest-puppeteer.config.js` file, like so:
-
-```js
-// jest-puppeteer.config.js
-...
-server: {
-  command: 'cd ./node_modules/api-contract-test-server && yarn build && API_CONTRACT_PATH=<PATH_TO_API_CONTRACT_JSON_FILE> API_CONTRACT_PORT=<YOUR_PORT_HERE> yarn start',
-  port: <YOUR_PORT_HERE>,
-  ...
-}
-...
-```
-
-* `API_CONTRACT_PATH`: The path to the `api-contract.json` file containing the schema you want it to expose. If not specified, it will look in your project root.
-* `API_CONTRACT_PORT`: specifies the port to run the api contract test server on. If not specified, it will default to `4000`
