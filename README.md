@@ -1,15 +1,15 @@
 # Api Contract
 
-API Contract was a concept developed to solve integration testing challenges with split frontend/backend teams on separate repos/tech stacks. For more information on how/why it was developed, see the [Api Contract wiki](https://github.com/avocadojesus/api-contract-test-server/wiki). Additionally, if you would like more information on the json api, that can be found [here (subnested in the wiki)](https://github.com/avocadojesus/api-contract-test-server/wiki/JSON-API).
+API Contract was a concept developed to solve integration testing challenges with split frontend/backend teams on separate repos/tech stacks. For more information on how/why it was developed, see the [Api Contract wiki](https://github.com/avocadojesus/api-contract-node/wiki). Additionally, if you would like more information on the json api, that can be found [here (subnested in the wiki)](https://github.com/avocadojesus/api-contract-node/wiki/JSON-API).
 
-# api-contract-test-server
+# api-contract-node
 
 This repo provides a dummy REST server running express which serves dummy endpoints based on supplied `api-contract.json` file. It serves payload shapes based on the payload schema described for each endpoint within a file.
 
 ## Installation
 
 ```
-yarn add https://github.com/avocadojesus/api-contract-test-server.git
+yarn add https://github.com/avocadojesus/api-contract-node.git
 ```
 
 ## Setup
@@ -84,7 +84,7 @@ When configuring puppeteer-jest, you will want to include the custom file requir
 
 module.exports = {
   server: {
-    command: 'yarn --cwd ./node_modules/api-contract-test-server start',
+    command: 'yarn --cwd ./node_modules/api-contract-node start',
     launchTimeout: 15000, // the default is 5000, which is generally too short for a dry run.
     debug: true, // set to true if your server is having trouble starting.
   },
@@ -100,7 +100,7 @@ Once all this is set up, you can write a feature spec in the `spec/features` dir
 ```js
 // spec/features/api-contract-test-hello-world.spec.ts
 
-describe('api-contract-test-server can launch', () => {
+describe('api-contract-node can launch', () => {
   beforeAll(async () => {
     await page.goto('http://localhost:4000/api/v1')
   })
@@ -118,7 +118,7 @@ Options can be passed via env vars to the underlying command by simply adding th
 // jest-puppeteer.config.js
 ...
 server: {
-  command: 'cd ./node_modules/api-contract-test-server && yarn build && API_CONTRACT_PATH=<PATH_TO_API_CONTRACT_JSON_FILE> API_CONTRACT_PORT=<YOUR_PORT_HERE> yarn start',
+  command: 'cd ./node_modules/api-contract-node && yarn build && API_CONTRACT_PATH=<PATH_TO_API_CONTRACT_JSON_FILE> API_CONTRACT_PORT=<YOUR_PORT_HERE> yarn start',
   port: <YOUR_PORT_HERE>,
   ...
 }
@@ -132,7 +132,7 @@ server: {
 Additionally, a jest extension is applied, so if you are running a backend JSON api, you can use this to validate that the shape of your endponts matches your api contract, like so:
 
 ```js
-import 'api-contract-test-server'
+import 'api-contract-node'
 
 ...
 

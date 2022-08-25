@@ -1,8 +1,8 @@
 {
-  "name": "api-contract-test-server",
+  "name": "api-contract-node",
   "version": "1.0.0",
   "main": "dist/src/index.js",
-  "repository": "https://github.com/avocadojesus/api-contract-test-server.git",
+  "repository": "https://github.com/avocadojesus/api-contract-node.git",
   "author": "avocadojesus <fred@platejoy.com>",
   "license": "MIT",
   "scripts": {
