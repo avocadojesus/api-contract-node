@@ -1,14 +1,14 @@
 {
   "name": "api-contract-test-server",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "dist/src/index.js",
   "repository": "https://github.com/avocadojesus/api-contract-test-server.git",
   "author": "avocadojesus <fred@platejoy.com>",
   "license": "MIT",
   "scripts": {
     "build": "npx tsc",
-    "start": "node dist/src/index.js",
-    "dev": "concurrently \"npx tsc --watch\" \"nodemon -q dist/src/index.js\"",
+    "start": "node dist/src/server/index.js",
+    "dev": "concurrently \"npx tsc --watch\" \"nodemon -q dist/src/server/dev.js\"",
     "spec": "jest",
     "postinstall": "yarn build"
   },

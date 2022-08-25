@@ -1,5 +1,5 @@
 import request from 'supertest'
-import createServer from '../../../src/helpers/createServer'
+import createServer from '../../../src/server/helpers/createServer'
 
 const app = createServer('spec/endpoint_stubs/resource/api-contract.json')
 
