@@ -132,6 +132,10 @@ server: {
 Additionally, a jest extension is applied, so if you are running a backend JSON api, you can use this to validate that the shape of your endponts matches your api contract, like so:
 
 ```js
+import 'api-contract-test-server'
+
+...
+
 expect({
   user: {
     id: '2CE0E7AC-D9B6-40C9-9A97-A8737172B685',
