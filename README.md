@@ -93,6 +93,8 @@ module.exports = {
 
 ## Usage
 
+### Test server
+
 Once all this is set up, you can write a feature spec in the `spec/features` dir, like so:
 
 ```js
@@ -108,6 +110,54 @@ describe('api-contract-test-server can launch', () => {
     console.log(bodyHTML)
   })
 })
+```
+
+### Jest helpers
+Additionally, a jest extension is applied, so if you are running a backend JSON api, you can use this to validate that the shape of your endponts matches your api contract, like so:
+
+```js
+expect({
+  user: {
+    id: '2CE0E7AC-D9B6-40C9-9A97-A8737172B685',
+    email: 'fred@fred.fred',
+    name: 'fred',
+    likes_cats: true,
+    subscription_cost: 123.456,
+    created_at: 'Saturday, 20-Aug-22 07:20:10 PDT',
+    stuff: {
+      piano: true,
+      guitar: true,
+    },
+  }
+}).toComplyWithAPIContract('get', '/api/v1/:id')
+```
+
+which will pass with the following `api-contract.json`:
+
+```json
+{
+  "GET:/api/v1/:id": {
+    "payload_shape": {
+      "user": "User"
+    }
+  },
+  "config": {
+    "serializers": {
+      "User": {
+        "id": "string:uuid",
+        "email": "string:email",
+        "name": "string:name",
+        "likes_cats": "bool",
+        "subscription_cost": "number:float",
+        "created_at": "datetime:rfc850",
+        "stuff": {
+          "piano": "bool",
+          "guitar": "bool"
+        }
+      }
+    }
+  }
+}
 ```
 
 ## API
