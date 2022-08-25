@@ -1,7 +1,17 @@
 {
-  "GET:/api/v1/:id": {
+  "GET:/api/v1/users/:id": {
     "payload_shape": {
-      "user": {
+      "user": "User"
+    }
+  },
+  "GET:/api/v1/users": {
+    "payload_shape": {
+      "users": "User[]"
+    }
+  },
+  "config": {
+    "serializers": {
+      "User": {
         "id": "number",
         "email": "string:email",
         "name": "string:name",
