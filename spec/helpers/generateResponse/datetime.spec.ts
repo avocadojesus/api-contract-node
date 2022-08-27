@@ -1,6 +1,6 @@
 import generateResponse from '../../../src/server/helpers/generateResponse'
-import { DATETIME_FORMATS, ISO861_DATETIME_REGEX } from '../../../src/config/datetime-formats'
-import { DATE_FORMATS } from '../../../src/config/date-formats'
+import { DATETIME_FORMATS, ISO861_DATETIME_REGEX } from '../../../src/config/formats/datetime'
+import { DATE_FORMATS } from '../../../src/config/formats/date'
 
 describe ('generateResponse', () => {
   it ('can parse a datetime response', () => {

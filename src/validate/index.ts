@@ -9,8 +9,8 @@ import validateBool from './helpers/validateBool'
 import validateDate from './helpers/validateDate'
 import validateDatetime from './helpers/validateDatetime'
 import validateNumber from './helpers/validateNumber'
-import { AcceptedDateFormats } from '../config/date-formats'
-import { AcceptedDatetimeFormats } from '../config/datetime-formats'
+import { AcceptedDateFormats } from '../config/formats/date'
+import { AcceptedDatetimeFormats } from '../config/formats/datetime'
 
 export default function validate(
   results: { [key: string]: any },

@@ -1,4 +1,4 @@
-import { DATETIME_FORMATS, AcceptedDatetimeFormats } from '../../config/datetime-formats'
+import { DATETIME_FORMATS, AcceptedDatetimeFormats } from '../../config/formats/datetime'
 
 export default function validateDatetime(value: any, format: AcceptedDatetimeFormats) {
   if (Array.isArray(value)) return false

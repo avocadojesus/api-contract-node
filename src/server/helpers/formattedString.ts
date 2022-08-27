@@ -1,5 +1,5 @@
 import {faker} from '@faker-js/faker'
-import { AcceptedStringFormats } from '../../config/string-formats'
+import { AcceptedStringFormats } from '../../config/formats/string'
 
 export default function formattedString(format: AcceptedStringFormats) {
   switch(format) {
