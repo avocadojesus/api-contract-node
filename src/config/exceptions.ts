@@ -1,11 +1,13 @@
 import { PrimaryDatatype } from '../config'
 
 class UnrecognizedFormat extends Error {
-  receivedFormat: any
+  private receivedFormat: any
+  private key: string
 
-  constructor(receivedFormat: any) {
-    super(receivedFormat)
+  constructor(key: string, receivedFormat: any) {
+    super()
     this.receivedFormat = receivedFormat
+    this.key = key
   }
 
   get expectedType(): PrimaryDatatype {
@@ -13,7 +15,16 @@ class UnrecognizedFormat extends Error {
   }
 
   get message() {
-    return `Unrecognized ${this.expectedType} format:`
+    return `
+      unrecognized format passed for payload key:
+        '${this.key}'
+
+      The format we received from you is:
+        '${this.receivedFormat}'.
+
+      The expected format was:
+        '${this.expectedType}'
+    `
   }
 }
 

@@ -1,4 +1,4 @@
-import { ApiContractOptions } from '../config'
+import { ApiContractOptions, PrimaryDatatype } from '../config'
 import parseDatatype from '../helpers/parseDatatype'
 import getStringFormatFromDecorators from '../helpers/getStringFormatFromDecorators'
 import getDateFormatFromDecorators from '../helpers/getDateFormatFromDecorators'
@@ -24,7 +24,7 @@ export default function validate(
       if (typeof format === 'object')
         return validate(results[key], payloadShape[key], options)
 
-      return validateValue(results[key], format, options)
+      return validateValue(key, results[key], format, options)
     })
 
   return !values.includes(false)
@@ -35,36 +35,36 @@ export default function validate(
 // that it calls `validate`, and moving it to another file would create a circular
 // dependency. Really, it could be all consolidated into a singular function, `validate`,
 // but I felt that this cluttered the ability to see what was happening on a high level
-function validateValue(value: any, format: string, options: ApiContractOptions={}) {
+function validateValue(key: string, value: any, format: string, options: ApiContractOptions={}) {
   const { datatype, decorators, isArray, isOptional } = parseDatatype(format)
   if (!isArray && Array.isArray(value)) return false
   if (isArray && !Array.isArray(value)) return false
   if (isOptional && [null, undefined].includes(value)) return true
 
   switch(datatype) {
-  case 'string':
+  case PrimaryDatatype.String:
     const strFormat = decorators.length ? getStringFormatFromDecorators(decorators) : null
     if (isArray) return !value.map((val: string) => validateString(val, strFormat)).includes(false)
     return validateString(value, strFormat)
 
-  case 'number':
+  case PrimaryDatatype.Number:
     const numFormat = decorators.length ? getNumberFormatFromDecorators(decorators) : null
     if (isArray) return !value.map((val: string) => validateNumber(val, numFormat)).includes(false)
     return validateNumber(value, numFormat)
 
-  case 'bool':
+  case PrimaryDatatype.Bool:
     if (isArray) return !value.map((val: string) => validateBool(val, isOptional)).includes(false)
     return validateBool(value, isOptional)
 
-  case 'date':
+  case PrimaryDatatype.Date:
     const dateFormat = decorators.length ? getDateFormatFromDecorators(decorators) : null
-    if (isArray) return !value.map((val: string) => validateDate(val, dateFormat || AcceptedDateFormats.YYYYMMDD)).includes(false)
-    return validateDate(value, dateFormat || AcceptedDateFormats.YYYYMMDD)
+    if (isArray) return !value.map((val: string) => validateDate(key, val, dateFormat || AcceptedDateFormats.YYYYMMDD)).includes(false)
+    return validateDate(key, value, dateFormat || AcceptedDateFormats.YYYYMMDD)
 
-  case 'datetime':
+  case PrimaryDatatype.Datetime:
     const datetimeFormat = decorators.length ? getDatetimeFormatFromDecorators(decorators) : null
-    if (isArray) return !value.map((val: string) => validateDatetime(val, datetimeFormat || AcceptedDatetimeFormats.ISO861)).includes(false)
-    return validateDatetime(value, datetimeFormat || AcceptedDatetimeFormats.ISO861)
+    if (isArray) return !value.map((val: string) => validateDatetime(key, val, datetimeFormat || AcceptedDatetimeFormats.ISO861)).includes(false)
+    return validateDatetime(key, value, datetimeFormat || AcceptedDatetimeFormats.ISO861)
 
   default:
     const { serializers } = options
