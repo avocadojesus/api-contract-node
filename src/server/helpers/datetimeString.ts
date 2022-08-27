@@ -1,5 +1,5 @@
 import { DateTime } from 'luxon'
-import { DATETIME_FORMATS, AcceptedDatetimeFormats } from '../config/datetime-formats'
+import { DATETIME_FORMATS, AcceptedDatetimeFormats } from '../../config/datetime-formats'
 
 export default function datetimeString(format: AcceptedDatetimeFormats) {
   const date = DateTime.now()

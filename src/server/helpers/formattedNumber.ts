@@ -1,5 +1,5 @@
 import {faker} from '@faker-js/faker'
-import { AcceptedNumberFormats } from '../config/number-formats'
+import { AcceptedNumberFormats } from '../../config/number-formats'
 
 export default function formattedNumber(format: AcceptedNumberFormats) {
   switch(format) {
