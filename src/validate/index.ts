@@ -33,7 +33,8 @@ export default function validate(
 // word to the wise -
 // I continue to try to move validateValue to a separate file, only to remember
 // that it calls `validate`, and moving it to another file would create a circular
-// dependency.
+// dependency. Really, it could be all consolidated into a singular function, `validate`,
+// but I felt that this cluttered the ability to see what was happening on a high level
 function validateValue(value: any, format: string, options: ApiContractOptions={}) {
   const { datatype, decorators, isArray, isOptional } = parseDatatype(format)
   if (!isArray && Array.isArray(value)) return false
