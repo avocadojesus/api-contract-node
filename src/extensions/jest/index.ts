@@ -5,10 +5,10 @@
 //
 // its primary purpose is to provide validtion helpers that will
 // be useful to engineers adhering to the api contract json standard while writing a node server
-import { ApiContractOptions } from '../config'
-import readApiContractJSON from '../helpers/readApiContractJSON'
-import endpointKey from '../helpers/endpointKey'
-import validate from '../validate'
+import { ApiContractOptions } from '../../config'
+import readApiContractJSON from '../../helpers/readApiContractJSON'
+import endpointKey from '../../helpers/endpointKey'
+import validate from '../../validate'
 
 expect.extend({
   toComplyWithAPIContract(received, httpMethod: string, endpointPath: string) {

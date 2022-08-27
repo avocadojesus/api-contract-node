@@ -1,1 +1,1 @@
-import './spec/jest'
+import './extensions/jest'

@@ -1,7 +1,7 @@
-import '../../src/spec/jest'
+import '../../../src/extensions/jest'
 
 let mockedValue: { [key: string]: any } = {}
-jest.mock('../../src/helpers/readApiContractJSON', () => jest.fn(() => mockedValue))
+jest.mock('../../../src/helpers/readApiContractJSON', () => jest.fn(() => mockedValue))
 
 function mockReadJSON(payload: { [key: string]: any }) {
   mockedValue = payload
