@@ -35,8 +35,7 @@ export default function validate(
 // that it calls `validate`, and moving it to another file would create a circular
 // dependency.
 function validateValue(value: any, format: string, options: ApiContractOptions={}) {
-  const [datatype, _decorators, isArray, isOptional] = parseDatatype(format)
-  let decorators = _decorators as string[]
+  const { datatype, decorators, isArray, isOptional } = parseDatatype(format)
   if (!isArray && Array.isArray(value)) return false
   if (isArray && !Array.isArray(value)) return false
   if (isOptional && [null, undefined].includes(value)) return true

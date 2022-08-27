@@ -33,8 +33,7 @@ export default function generateResponse(
 }
 
 function generateValue(format: string, options: ApiContractOptions={}) {
-  const [datatype, _decorators, isArray] = parseDatatype(format)
-  let decorators = _decorators as string[]
+  const { datatype, decorators, isArray, isOptional } = parseDatatype(format)
 
   switch(datatype) {
   case 'string':
