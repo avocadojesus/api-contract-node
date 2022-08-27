@@ -1,7 +1,7 @@
 import request from 'supertest'
 import createServer from '../../src/server/helpers/createServer'
 
-const app = createServer('spec/endpoint_stubs/resource/api-contract.json')
+const app = createServer('spec/support/endpoint-stubs/resource/api-contract.json')
 
 describe ('DELETE endpoint', () => {
   it ('opens up DELETE routes correctly based on api-contrat.json', async () => {

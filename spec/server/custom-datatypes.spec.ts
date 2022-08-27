@@ -1,7 +1,7 @@
 import request from 'supertest'
 import createServer from '../../src/server/helpers/createServer'
 
-const app = createServer('spec/endpoint_stubs/resource/api-contract.json')
+const app = createServer('spec/support/endpoint-stubs/resource/api-contract.json')
 
 describe ('GET endpoint that serves a serialized resource', () => {
   it ('correctly mocks the serialized shape', async () => {
