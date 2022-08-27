@@ -3,7 +3,7 @@ import generateResponse from './generateResponse'
 import readApiContractJSON from '../../helpers/readApiContractJSON'
 import { ApiContractOptions, HttpMethods } from '../../config'
 
-export default function buildRoutesFromAPIContract(app: Express, endpointJSONPath?: string) {
+export default function createRoutes(app: Express, endpointJSONPath?: string) {
   const endpoints = readApiContractJSON(endpointJSONPath)
   const config: ApiContractOptions = endpoints.config
 

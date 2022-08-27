@@ -1,8 +1,8 @@
 import express, { Express } from 'express'
-import buildRoutesFromAPIContract from './buildRoutesFromAPIContract'
+import createRoutes from './createRoutes'
 
 export default function createServer(endpointJSONPath?: string) {
   const app: Express = express()
-  buildRoutesFromAPIContract(app, endpointJSONPath)
+  createRoutes(app, endpointJSONPath)
   return app
 }
