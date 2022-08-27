@@ -24,5 +24,13 @@ describe ('validate', () => {
       expect(validate({ likes_cats: ['false'] }, { likes_cats: 'bool[]' })).toEqual(false)
     })
   })
+
+  context ('decorators', () => {
+    context ('optional decorator', () => {
+      it ('permits null values when optional is set', () => {
+        expect(validate({ likes_cats: null }, { likes_cats: 'bool:optional' })).toEqual(true)
+      })
+    })
+  })
 })
 

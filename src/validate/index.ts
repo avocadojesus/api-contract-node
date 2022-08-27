@@ -26,6 +26,12 @@ export default function validate(
   return !values.includes(false)
 }
 
+function validateBool(value: any, isOptional: boolean) {
+  if (isOptional && [null, undefined].includes(value)) return true
+  if (Array.isArray(value)) return false
+  return typeof value === 'boolean'
+}
+
 function validateString(value: any, format: string | null) {
   if (Array.isArray(value)) return false
   if (!value || typeof value === 'boolean') return false
@@ -78,7 +84,7 @@ function validateDatetime(value: any, format: AcceptedDatetimeFormats) {
 }
 
 function validateValue(value: any, format: string, options: ApiContractOptions={}) {
-  const [datatype, _decorators, isArray] = parseDatatype(format)
+  const [datatype, _decorators, isArray, isOptional] = parseDatatype(format)
   let decorators = _decorators as string[]
   if (!isArray && Array.isArray(value)) return false
   if (isArray && !Array.isArray(value)) return false
@@ -95,8 +101,8 @@ function validateValue(value: any, format: string, options: ApiContractOptions={
     return validateNumber(value, numFormat)
 
   case 'bool':
-    if (isArray) return !value.map((val: string) => typeof val === 'boolean').includes(false)
-    return typeof value === 'boolean'
+    if (isArray) return !value.map((val: string) => validateBool(val, isOptional)).includes(false)
+    return validateBool(value, isOptional)
 
   case 'date':
     const dateFormat = decorators.length ? getDateFormatFromDecorators(decorators) : null
