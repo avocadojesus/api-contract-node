@@ -22,6 +22,20 @@ describe ('validate', () => {
   })
 
   context ('decorators', () => {
+    context ('optional decorator is passed', () => {
+      it ('returns true when null is passed', () => {
+        expect(validate({ created_at: null }, { created_at: 'date:mmddyy:optional' })).toEqual(true)
+      })
+
+      it ('returns true when undefined is passed', () => {
+        expect(validate({ created_at: null }, { created_at: 'date:mmddyy:optional' })).toEqual(true)
+      })
+
+      it ('returns false when detecting an invalid mmddyy', () => {
+        expect(validate({ created_at: '01-01-2000' }, { created_at: 'date:mmddyy:optional' })).toEqual(false)
+      })
+    })
+
     context ('yyyymmdd decorator is passed', () => {
       it ('returns true when detecting a valid yyyymmdd', () => {
         expect(validate({ created_at: '2000-01-01' }, { created_at: 'date:yyyymmdd' })).toEqual(true)

@@ -22,6 +22,21 @@ describe ('validate', () => {
   })
 
   context ('decorators', () => {
+    context ('optional decorator is passed', () => {
+      it ('returns true when null is passed', () => {
+        expect(validate({ created_at: null }, { created_at: 'datetime:ansic:optional' })).toEqual(true)
+      })
+
+      it ('returns true when undefined is passed', () => {
+        expect(validate({ created_at: null }, { created_at: 'datetime:ansic:optional' })).toEqual(true)
+      })
+
+      it ('returns false when detecting an invalid datetime', () => {
+        expect(validate({ created_at: '01-01-2000' }, { created_at: 'datetime:ansic:optional' })).toEqual(false)
+      })
+    })
+
+
     context ('ansic decorator is passed', () => {
       it ('returns true when detecting a valid ansic', () => {
         expect(validate({ created_at: 'Mon Jan 22 15:04:05 2006' }, { created_at: 'datetime:ansic' })).toEqual(true)

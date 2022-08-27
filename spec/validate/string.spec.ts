@@ -21,6 +21,20 @@ describe ('validate', () => {
   })
 
   context ('decorators', () => {
+    context ('optional decorator is passed', () => {
+      it ('returns true when null is passed', () => {
+        expect(validate({ name: null }, { name: 'string:optional' })).toEqual(true)
+      })
+
+      it ('returns true when undefined is passed', () => {
+        expect(validate({ name: undefined }, { name: 'string:optional' })).toEqual(true)
+      })
+
+      it ('returns false when detecting an invalid number', () => {
+        expect(validate({ name: 123 }, { name: 'string:optional' })).toEqual(false)
+      })
+    })
+
     context ('uuid decorator is passed', () => {
       it ('returns true when detecting a valid uuid', () => {
         expect(validate({ id: '233B5C32-986F-421A-8A33-130A701017AD' }, { id: 'string:uuid' })).toEqual(true)

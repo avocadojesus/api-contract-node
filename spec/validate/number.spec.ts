@@ -22,6 +22,20 @@ describe ('validate', () => {
   })
 
   context ('decorators', () => {
+    context ('optional decorator is passed', () => {
+      it ('returns true when null is passed', () => {
+        expect(validate({ id: null }, { id: 'number:optional' })).toEqual(true)
+      })
+
+      it ('returns true when undefined is passed', () => {
+        expect(validate({ id: undefined }, { id: 'number:optional' })).toEqual(true)
+      })
+
+      it ('returns false when detecting an invalid number', () => {
+        expect(validate({ id: '01-01-2000' }, { id: 'number:optional' })).toEqual(false)
+      })
+    })
+
     context ('int decorator is passed', () => {
       it ('returns true when detecting a valid int', () => {
         expect(validate({ id: 123 }, { id: 'number:int' })).toEqual(true)

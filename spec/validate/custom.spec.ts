@@ -17,7 +17,7 @@ describe ('validate', () => {
     ).toEqual(true)
   })
 
-  it ('returns false when detecting an invalid boolean', () => {
+  it ('returns false when detecting an invalid custom type', () => {
     expect(
       validate(
         { user: { id: '1' } },
@@ -53,7 +53,7 @@ describe ('validate', () => {
       ).toEqual(true)
     })
 
-    it ('returns false when detecting an invalid boolean array', () => {
+    it ('returns false when detecting an invalid custom type array', () => {
       expect(
         validate(
           { users: [
@@ -70,6 +70,26 @@ describe ('validate', () => {
           }
         )
       ).toEqual(false)
+    })
+  })
+
+  context ('decorators', () => {
+    context ('optional decorator is passed', () => {
+      it ('permits undefined values', () => {
+        expect(
+          validate(
+            { user: null },
+            { user: 'User:optional' },
+            {
+              serializers: {
+                User: {
+                  id: 'number'
+                }
+              }
+            }
+          )
+        ).toEqual(true)
+      })
     })
   })
 })

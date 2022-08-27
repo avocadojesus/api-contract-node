@@ -27,7 +27,6 @@ export default function validate(
 }
 
 function validateBool(value: any, isOptional: boolean) {
-  if (isOptional && [null, undefined].includes(value)) return true
   if (Array.isArray(value)) return false
   return typeof value === 'boolean'
 }
@@ -88,6 +87,7 @@ function validateValue(value: any, format: string, options: ApiContractOptions={
   let decorators = _decorators as string[]
   if (!isArray && Array.isArray(value)) return false
   if (isArray && !Array.isArray(value)) return false
+  if (isOptional && [null, undefined].includes(value)) return true
 
   switch(datatype) {
   case 'string':
