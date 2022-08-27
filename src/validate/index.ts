@@ -1,12 +1,16 @@
 import { ApiContractOptions } from '../config'
+import parseDatatype from '../helpers/parseDatatype'
+import getStringFormatFromDecorators from '../helpers/getStringFormatFromDecorators'
 import getDateFormatFromDecorators from '../helpers/getDateFormatFromDecorators'
 import getDatetimeFormatFromDecorators from '../helpers/getDatetimeFormatFromDecorators'
 import getNumberFormatFromDecorators from '../helpers/getNumberFormatFromDecorators'
-import getStringFormatFromDecorators from '../helpers/getStringFormatFromDecorators'
-import parseDatatype from '../helpers/parseDatatype'
-import { DATETIME_FORMATS, AcceptedDatetimeFormats } from '../config/datetime-formats'
-import { AcceptedDateFormats, DATE_FORMATS } from '../config/date-formats'
-import { UUID_REGEX, NAME_REGEX, EMAIL_REGEX, FULL_NAME_REGEX } from '../config/regexes'
+import validateString from './helpers/validateString'
+import validateBool from './helpers/validateBool'
+import validateDate from './helpers/validateDate'
+import validateDatetime from './helpers/validateDatetime'
+import validateNumber from './helpers/validateNumber'
+import { AcceptedDateFormats } from '../config/date-formats'
+import { AcceptedDatetimeFormats } from '../config/datetime-formats'
 
 export default function validate(
   results: { [key: string]: any },
@@ -24,62 +28,6 @@ export default function validate(
     })
 
   return !values.includes(false)
-}
-
-function validateBool(value: any, isOptional: boolean) {
-  if (Array.isArray(value)) return false
-  return typeof value === 'boolean'
-}
-
-function validateString(value: any, format: string | null) {
-  if (Array.isArray(value)) return false
-  if (!value || typeof value === 'boolean') return false
-
-  switch(format) {
-  case 'uuid':
-    return UUID_REGEX.test(value)
-
-  case 'email':
-    return EMAIL_REGEX.test(value)
-
-  case 'name':
-    return NAME_REGEX.test(value)
-
-  case 'fullname':
-    return FULL_NAME_REGEX.test(value)
-
-  default:
-    return typeof value === 'string'
-  }
-}
-
-function validateNumber(value: any, format: string | null) {
-  if (Array.isArray(value)) return false
-  switch(format) {
-  case 'int':
-  case 'bigint':
-    return /^\d{1,}$/.test(value)
-
-  case 'float':
-    return /^\d{1,}\.\d{1,}$/.test(value)
-
-  default:
-    return typeof value === 'number'
-  }
-}
-
-function validateDate(value: any, format: AcceptedDateFormats) {
-  if (Array.isArray(value)) return false
-  const formatConfig = DATE_FORMATS[format]
-  if (!formatConfig) throw `Unrecognized datetime format ${format}`
-  return formatConfig.regex.test(value)
-}
-
-function validateDatetime(value: any, format: AcceptedDatetimeFormats) {
-  if (Array.isArray(value)) return false
-  const formatConfig = DATETIME_FORMATS[format]
-  if (!formatConfig) throw `Unrecognized datetime format ${format}`
-  return formatConfig.regex.test(value)
 }
 
 function validateValue(value: any, format: string, options: ApiContractOptions={}) {
@@ -124,3 +72,4 @@ function validateValue(value: any, format: string, options: ApiContractOptions={
     return false
   }
 }
+
