@@ -1,7 +1,7 @@
 import { Express } from 'express'
 import generateResponse from './generateResponse'
 import readApiContractJSON from '../../helpers/readApiContractJSON'
-import { ApiContractOptions } from '../../config'
+import { ApiContractOptions, HttpMethods } from '../../config'
 
 export default function buildRoutesFromAPIContract(app: Express, endpointJSONPath?: string) {
   const endpoints = readApiContractJSON(endpointJSONPath)
@@ -14,23 +14,23 @@ export default function buildRoutesFromAPIContract(app: Express, endpointJSONPat
       const path = endpointKey.replace(new RegExp(`^${httpMethod}:`), '')
 
       switch(httpMethod) {
-      case 'GET':
+      case HttpMethods.Get:
         app.get(path, (_, res) => res.json(generateResponse(endpoints[endpointKey].payload_shape, config)))
         break
 
-      case 'POST':
+      case HttpMethods.Post:
         app.post(path, (_, res) => res.json(generateResponse(endpoints[endpointKey].payload_shape, config)))
         break
 
-      case 'PUT':
+      case HttpMethods.Put:
         app.put(path, (_, res) => res.json(generateResponse(endpoints[endpointKey].payload_shape, config)))
         break
 
-      case 'PATCH':
+      case HttpMethods.Patch:
         app.patch(path, (_, res) => res.json(generateResponse(endpoints[endpointKey].payload_shape, config)))
         break
 
-      case 'DELETE':
+      case HttpMethods.Delete:
         app.delete(path, (_, res) => res.json(generateResponse(endpoints[endpointKey].payload_shape, config)))
         break
 
