@@ -11,7 +11,7 @@ import getDatetimeFormatFromDecorators from '../../helpers/getDatetimeFormatFrom
 import getNumberFormatFromDecorators from '../../helpers/getNumberFormatFromDecorators'
 import getStringFormatFromDecorators from '../../helpers/getStringFormatFromDecorators'
 import parseDatatype from '../../helpers/parseDatatype'
-import { ApiContractOptions } from '../../config'
+import { ApiContractOptions, PrimaryDatatype } from '../../config'
 
 export default function generateResponse(
   payloadShape: { [key: string]: any },
@@ -36,7 +36,7 @@ function generateValue(format: string, options: ApiContractOptions={}) {
   const { datatype, decorators, isArray, isOptional } = parseDatatype(format)
 
   switch(datatype) {
-  case 'string':
+  case PrimaryDatatype.String:
     if (decorators.length) {
       const strFormat = getStringFormatFromDecorators(decorators)
       if (!strFormat) throw `Unrecognized string format: ${strFormat}`
@@ -52,7 +52,7 @@ function generateValue(format: string, options: ApiContractOptions={}) {
         faker.lorem.word()
     }
 
-  case 'number':
+  case PrimaryDatatype.Number:
     if (decorators.length) {
       const numFormat = getNumberFormatFromDecorators(decorators)
       if (!numFormat) throw `Unrecognized number format: ${numFormat}`
@@ -68,7 +68,7 @@ function generateValue(format: string, options: ApiContractOptions={}) {
         formattedNumber(AcceptedNumberFormats.Int)
     }
 
-  case 'bool':
+  case PrimaryDatatype.Bool:
     return isArray ?
       [
         faker.datatype.boolean(),
@@ -76,7 +76,7 @@ function generateValue(format: string, options: ApiContractOptions={}) {
       ] :
       faker.datatype.boolean()
 
-  case 'date':
+  case PrimaryDatatype.Date:
     if (decorators.length) {
       const dateFormat = getDateFormatFromDecorators(decorators)
       if (!dateFormat) throw `Unrecognized date format: ${dateFormat}`
@@ -92,7 +92,7 @@ function generateValue(format: string, options: ApiContractOptions={}) {
         dateString(AcceptedDateFormats.YYYYMMDD)
     }
 
-  case 'datetime':
+  case PrimaryDatatype.Datetime:
     if (decorators.length) {
       const datetimeFormat = getDatetimeFormatFromDecorators(decorators)
       if (!datetimeFormat) throw `Unrecognized datetime format: ${datetimeFormat}`
