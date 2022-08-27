@@ -7,7 +7,7 @@ function mockReadJSON(payload: { [key: string]: any }) {
   mockedValue = payload
 }
 
-describe ('toComplyWithAPIContract', () => {
+describe ('toPassCompliance', () => {
   it ('succeeds when payload matches api-contract.json', () => {
     mockReadJSON({
       'GET:/api/v1': {
@@ -16,7 +16,7 @@ describe ('toComplyWithAPIContract', () => {
         }
       }
     })
-    expect({ id: 123 }).toComplyWithAPIContract('get', '/api/v1')
+    expect({ id: 123 }).toPassCompliance('get', '/api/v1')
   })
 
   it ('fails when payload does not match api-contract.json', () => {
@@ -27,6 +27,6 @@ describe ('toComplyWithAPIContract', () => {
         }
       }
     })
-    expect({ id: '123' }).not.toComplyWithAPIContract('get', '/api/v1')
+    expect({ id: '123' }).not.toPassCompliance('get', '/api/v1')
   })
 })

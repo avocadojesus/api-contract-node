@@ -11,7 +11,7 @@ import endpointKey from '../../helpers/endpointKey'
 import validate from '../../validate'
 
 expect.extend({
-  toComplyWithAPIContract(received, httpMethod: string, endpointPath: string) {
+  toPassCompliance(received, httpMethod: string, endpointPath: string) {
     const endpoints = readApiContractJSON()
     const config: ApiContractOptions = endpoints.config
     const endpointConfig = endpoints[endpointKey(httpMethod, endpointPath)]

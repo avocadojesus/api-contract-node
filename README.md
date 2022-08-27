@@ -149,7 +149,7 @@ expect({
       guitar: true,
     },
   }
-}).toComplyWithAPIContract('get', '/api/v1/:id')
+}).toPassCompliance('get', '/api/v1/:id')
 ```
 
 which will pass with the following `api-contract.json`:
