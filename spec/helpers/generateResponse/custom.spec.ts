@@ -1,4 +1,4 @@
-import generateResponse from '../../server/helpers/generateResponse'
+import generateResponse from '../../../src/server/helpers/generateResponse'
 
 describe ('generateResponse', () => {
   context ('when passing custom serializers', () => {

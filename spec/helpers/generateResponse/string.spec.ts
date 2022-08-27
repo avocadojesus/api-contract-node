@@ -1,4 +1,4 @@
-import generateResponse from '../../server/helpers/generateResponse'
+import generateResponse from '../../../src/server/helpers/generateResponse'
 import { DATETIME_FORMATS, ISO861_DATETIME_REGEX } from '../../../src/config/datetime-formats'
 import { DATE_FORMATS } from '../../../src/config/date-formats'
 
