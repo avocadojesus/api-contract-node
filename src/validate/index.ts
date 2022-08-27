@@ -30,6 +30,10 @@ export default function validate(
   return !values.includes(false)
 }
 
+// word to the wise -
+// I continue to try to move validateValue to a separate file, only to remember
+// that it calls `validate`, and moving it to another file would create a circular
+// dependency.
 function validateValue(value: any, format: string, options: ApiContractOptions={}) {
   const [datatype, _decorators, isArray, isOptional] = parseDatatype(format)
   let decorators = _decorators as string[]
