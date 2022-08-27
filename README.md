@@ -129,7 +129,7 @@ server: {
 * `API_CONTRACT_PORT`: specifies the port to run the api contract test server on. If not specified, it will default to `4000`
 
 ### Jest helpers
-Additionally, a jest extension is applied, so if you are running a backend JSON api, you can use this to validate that the shape of your endponts matches your api contract, like so:
+Additionally, a jest extension is applied, so if you are working on a backend node server with a JSON delivery system, you can use our custom jest helper to validate that the shape of your endponts matches your api contract, like so:
 
 ```js
 import 'api-contract-node'
