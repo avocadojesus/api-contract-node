@@ -1,18 +1,18 @@
-import {faker} from '@faker-js/faker'
+import { faker } from '@faker-js/faker'
 import { AcceptedStringFormats } from '../../config/formats/string'
 
 export default function formattedString(format: AcceptedStringFormats) {
   switch(format) {
-  case 'uuid':
+  case AcceptedStringFormats.UUID:
     return faker.datatype.uuid()
 
-  case 'email':
+  case AcceptedStringFormats.Email:
     return faker.internet.email()
 
-  case 'name':
+  case AcceptedStringFormats.Name:
     return faker.name.firstName()
 
-  case 'fullname':
+  case AcceptedStringFormats.FullName:
     return faker.name.fullName()
 
   default:
