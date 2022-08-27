@@ -6,6 +6,7 @@ import getStringFormatFromDecorators from '../helpers/getStringFormatFromDecorat
 import parseDatatype from '../helpers/parseDatatype'
 import { DATETIME_FORMATS, AcceptedDatetimeFormats } from '../config/datetime-formats'
 import { AcceptedDateFormats, DATE_FORMATS } from '../config/date-formats'
+import { UUID_REGEX, NAME_REGEX, EMAIL_REGEX, FULL_NAME_REGEX } from '../config/regexes'
 
 export default function validate(
   results: { [key: string]: any },
@@ -30,17 +31,17 @@ function validateString(value: any, format: string | null) {
   if (!value || typeof value === 'boolean') return false
 
   switch(format) {
-  case "uuid":
-    return /^[a-zA-Z0-9]{8}-[a-zA-Z0-9]{4}-[a-zA-Z0-9]{4}-[a-zA-Z0-9]{4}-[a-zA-Z0-9]{12}$/.test(value)
+  case 'uuid':
+    return UUID_REGEX.test(value)
 
-  case "email":
-    return /^.*@.*\..*$/.test(value)
+  case 'email':
+    return EMAIL_REGEX.test(value)
 
-  case "name":
-    return /^[A-Za-z]*$/.test(value)
+  case 'name':
+    return NAME_REGEX.test(value)
 
-  case "fullname":
-    return /^[A-Za-z'.]* [A-Za-z'.]*\s?[A-Za-z'.]{0,}\s?[A-Za-z'.]{0,}$/.test(value)
+  case 'fullname':
+    return FULL_NAME_REGEX.test(value)
 
   default:
     return typeof value === 'string'
@@ -50,11 +51,11 @@ function validateString(value: any, format: string | null) {
 function validateNumber(value: any, format: string | null) {
   if (Array.isArray(value)) return false
   switch(format) {
-  case "int":
-  case "bigint":
+  case 'int':
+  case 'bigint':
     return /^\d{1,}$/.test(value)
 
-  case "float":
+  case 'float':
     return /^\d{1,}\.\d{1,}$/.test(value)
 
   default:
