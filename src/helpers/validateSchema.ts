@@ -79,18 +79,23 @@ function validateDecorators(key: string, val: string) {
     switch(datatype) {
     case PrimaryDatatype.Bool:
       if (!Object.values(BoolDecorators).includes(decorator as BoolDecorators)) throw new InvalidDecorators(key, decorators)
+      break
 
     case PrimaryDatatype.Date:
       if (!Object.values(DateDecorators).includes(decorator as DateDecorators)) throw new InvalidDecorators(key, decorators)
+      break
 
     case PrimaryDatatype.Datetime:
       if (!Object.values(DatetimeDecorators).includes(decorator as DatetimeDecorators)) throw new InvalidDecorators(key, decorators)
+      break
 
     case PrimaryDatatype.Number:
       if (!Object.values(NumberDecorators).includes(decorator as NumberDecorators)) throw new InvalidDecorators(key, decorators)
+      break
 
     case PrimaryDatatype.String:
       if (!Object.values(StringDecorators).includes(decorator as StringDecorators)) throw new InvalidDecorators(key, decorators)
+      break
 
     default:
       if (!Object.values(CustomDecorators).includes(decorator as CustomDecorators)) throw new InvalidDecorators(key, decorators)
