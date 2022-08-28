@@ -16,6 +16,11 @@ describe ('generateResponse', () => {
   })
 
   context ('datetime decorators', () => {
+    it ('can parse a datetime:optional response', () => {
+      const res = generateResponse({ datetime: 'datetime:optional' })
+      expect(res.datetime).toMatch(ISO861_DATETIME_REGEX)
+    })
+
     it ('can parse a datetime:ansic response', () => {
       const res = generateResponse({ datetime: 'datetime:ansic' })
       expect(res.datetime).toMatch(DATETIME_FORMATS.ansic.regex)

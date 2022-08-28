@@ -14,4 +14,11 @@ describe ('generateResponse', () => {
     expect(typeof res.preferences[0]).toEqual('boolean')
     expect(typeof res.preferences[1]).toEqual('boolean')
   })
+
+  context ('decorators', () => {
+    it ('can parse an optional decorator', () => {
+      const res = generateResponse({ likes_cats: 'bool:optional' })
+      expect(typeof res.likes_cats).toEqual('boolean')
+    })
+  })
 })

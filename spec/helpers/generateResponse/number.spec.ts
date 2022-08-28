@@ -16,6 +16,11 @@ describe ('generateResponse', () => {
   })
 
   context ('number decorators', () => {
+    it ('can parse number:optional response', () => {
+      const res = generateResponse({ cost: 'number:optional' })
+      expect(res.cost.toString()).toMatch(/^\d{1,}$/)
+    })
+
     it ('can parse number:int response', () => {
       const res = generateResponse({ cost: 'number:int' })
       expect(res.cost.toString()).toMatch(/^\d{1,}$/)

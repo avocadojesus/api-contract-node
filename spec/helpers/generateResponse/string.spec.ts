@@ -16,6 +16,11 @@ describe ('generateResponse', () => {
   })
 
   context ('string decorators', () => {
+    it ('can parse string:optional response', () => {
+      const res = generateResponse({ something: 'string:optional' })
+      expect(res.something).toMatch(/^[A-Za-z]*$/)
+    })
+
     it ('can parse string:uuid response', () => {
       const res = generateResponse({ email: 'string:uuid' })
       expect(res.email).toMatch(/^[a-zA-Z0-9]{8}-[a-zA-Z0-9]{4}-[a-zA-Z0-9]{4}-[a-zA-Z0-9]{4}-[a-zA-Z0-9]{12}$/)

@@ -38,36 +38,12 @@ function generateValue(format: string, options: ApiContractOptions={}) {
 
   switch(datatype) {
   case PrimaryDatatype.String:
-    if (decorators.length) {
-      const strFormat = getStringFormatFromDecorators(decorators)
-      if (!strFormat) throw `Invalid string format: ${strFormat}`
-
-      return isArray ? [ formattedString(strFormat), formattedString(strFormat) ] : formattedString(strFormat)
-
-    } else {
-      return isArray ?
-        [
-          faker.lorem.word(),
-          faker.lorem.word(),
-        ] :
-        faker.lorem.word()
-    }
+    const strFormat = getStringFormatFromDecorators(decorators)
+    return isArray ? [ formattedString(strFormat), formattedString(strFormat) ] : formattedString(strFormat)
 
   case PrimaryDatatype.Number:
-    if (decorators.length) {
-      const numFormat = getNumberFormatFromDecorators(decorators)
-      if (!numFormat) throw `Invalid number format: ${numFormat}`
-
-      return isArray ? [ formattedNumber(numFormat), formattedNumber(numFormat) ] : formattedNumber(numFormat)
-
-    } else {
-      return isArray ?
-        [
-          formattedNumber(AcceptedNumberFormats.Int),
-          formattedNumber(AcceptedNumberFormats.Int),
-        ] :
-        formattedNumber(AcceptedNumberFormats.Int)
-    }
+    const numFormat = getNumberFormatFromDecorators(decorators)
+    return isArray ? [ formattedNumber(numFormat), formattedNumber(numFormat) ] : formattedNumber(numFormat)
 
   case PrimaryDatatype.Bool:
     return isArray ?
@@ -78,36 +54,12 @@ function generateValue(format: string, options: ApiContractOptions={}) {
       faker.datatype.boolean()
 
   case PrimaryDatatype.Date:
-    if (decorators.length) {
-      const dateFormat = getDateFormatFromDecorators(decorators)
-      if (!dateFormat) throw `Invalid date format: ${dateFormat}`
-
-      return isArray ? [ dateString(dateFormat), dateString(dateFormat) ] : dateString(dateFormat)
-
-    } else {
-      return isArray ?
-        [
-          dateString(AcceptedDateFormats.YYYYMMDD),
-          dateString(AcceptedDateFormats.YYYYMMDD),
-        ] :
-        dateString(AcceptedDateFormats.YYYYMMDD)
-    }
+    const dateFormat = getDateFormatFromDecorators(decorators)
+    return isArray ? [ dateString(dateFormat), dateString(dateFormat) ] : dateString(dateFormat)
 
   case PrimaryDatatype.Datetime:
-    if (decorators.length) {
-      const datetimeFormat = getDatetimeFormatFromDecorators(decorators)
-      if (!datetimeFormat) throw `Invalid datetime format: ${datetimeFormat}`
-
-      return isArray ? [ datetimeString(datetimeFormat), datetimeString(datetimeFormat) ] : datetimeString(datetimeFormat)
-
-    } else {
-      return isArray ?
-        [
-          datetimeString(AcceptedDatetimeFormats.ISO861),
-          datetimeString(AcceptedDatetimeFormats.ISO861),
-        ] :
-        datetimeString(AcceptedDatetimeFormats.ISO861)
-    }
+    const datetimeFormat = getDatetimeFormatFromDecorators(decorators)
+    return isArray ? [ datetimeString(datetimeFormat), datetimeString(datetimeFormat) ] : datetimeString(datetimeFormat)
 
   default:
     const { serializers } = options

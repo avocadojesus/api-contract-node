@@ -1,7 +1,7 @@
 import { faker } from '@faker-js/faker'
 import { AcceptedStringFormats } from '../../config/formats/string'
 
-export default function formattedString(format: AcceptedStringFormats) {
+export default function formattedString(format: AcceptedStringFormats | null) {
   switch(format) {
   case AcceptedStringFormats.UUID:
     return faker.datatype.uuid()
@@ -16,6 +16,6 @@ export default function formattedString(format: AcceptedStringFormats) {
     return faker.name.fullName()
 
   default:
-    throw `Unable to format string due to unrecognized format: ${format}`
+    return faker.lorem.word()
   }
 }

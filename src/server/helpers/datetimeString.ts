@@ -1,14 +1,13 @@
 import { DateTime } from 'luxon'
 import { DATETIME_FORMATS, AcceptedDatetimeFormats } from '../../config/formats/datetime'
 
-export default function datetimeString(format: AcceptedDatetimeFormats) {
+export default function datetimeString(format: AcceptedDatetimeFormats | null) {
   const date = DateTime.now()
-  const formatConfig = DATETIME_FORMATS[format]
-  if (!formatConfig) throw `Invalid datetime format ${format}`
 
-  if (format === AcceptedDatetimeFormats.ISO861) {
+  if (!format || format === AcceptedDatetimeFormats.ISO861) {
     return date.toISO()
   } else {
+    const formatConfig = DATETIME_FORMATS[format as AcceptedDatetimeFormats] || DATETIME_FORMATS[AcceptedDatetimeFormats.ISO861]
     return date.toFormat(formatConfig.luxon)
   }
 }

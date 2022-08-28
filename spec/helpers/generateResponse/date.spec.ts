@@ -16,6 +16,11 @@ describe ('generateResponse', () => {
   })
 
   context ('date decorators', () => {
+    it ('can parse a date:optional response', () => {
+      const res = generateResponse({ date: 'date:optional' })
+      expect(res.date).toMatch(DATE_FORMATS.yyyymmdd.regex)
+    })
+
     it ('can parse a date:yyyymmdd response', () => {
       const res = generateResponse({ date: 'date:yyyymmdd' })
       expect(res.date).toMatch(DATE_FORMATS.yyyymmdd.regex)
