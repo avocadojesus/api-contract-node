@@ -1,6 +1,7 @@
 import fs from 'fs'
 import path from 'path'
 import log from './log'
+import { JSONFileNotFound, InvalidJSON } from '../exceptions/parse-json'
 
 export default function readApiContractJSON(endpointJSONPath?: string) {
   const apiContractJSONPath = endpointJSONPath ||
@@ -10,13 +11,13 @@ export default function readApiContractJSON(endpointJSONPath?: string) {
   log(`extracting api-contract.json file... at ${apiContractJSONPath}`)
 
   const results = fs.readFileSync(apiContractJSONPath)?.toString()
-  if (!results) throw 'api-contract.json file was not found. looked at: ' + apiContractJSONPath
+  if (!results) throw new JSONFileNotFound(apiContractJSONPath)
 
   let endpoints: { [key: string]: any }
   try {
     endpoints = JSON.parse(results)
   } catch (error) {
-    throw `Failed to parse JSON for api-contract.json file. Error: ${error}`
+    throw new InvalidJSON(apiContractJSONPath, error as Error)
   }
 
   return endpoints
