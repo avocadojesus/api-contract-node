@@ -1,7 +1,7 @@
 import { faker } from '@faker-js/faker'
 import { AcceptedDateFormats } from '../../config/formats/date'
 import { AcceptedDatetimeFormats } from '../../config/formats/datetime'
-import {AcceptedNumberFormats} from '../../config/formats/number'
+import { AcceptedNumberFormats } from '../../config/formats/number'
 import dateString from './dateString'
 import datetimeString from './datetimeString'
 import formattedNumber from './formattedNumber'
@@ -11,6 +11,7 @@ import getDatetimeFormatFromDecorators from '../../helpers/getDatetimeFormatFrom
 import getNumberFormatFromDecorators from '../../helpers/getNumberFormatFromDecorators'
 import getStringFormatFromDecorators from '../../helpers/getStringFormatFromDecorators'
 import parseDatatype from '../../helpers/parseDatatype'
+import { InvalidFormat } from '../../exceptions/invalid-format'
 import { ApiContractOptions, PrimaryDatatype } from '../../config'
 
 export default function generateResponse(
@@ -25,7 +26,7 @@ export default function generateResponse(
 
     } else {
       const val = generateValue(payloadShape[key], options)
-      if (val === null) throw `unrecognized format passed for payload key: ${key}. Invalid format is: ${payloadShape[key]}`
+      if (val === null) throw new InvalidFormat(key, payloadShape[key])
       results[key] = val
     }
   })

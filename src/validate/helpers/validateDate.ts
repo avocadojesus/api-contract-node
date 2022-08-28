@@ -1,5 +1,5 @@
 import { AcceptedDateFormats, DATE_FORMATS } from '../../config/formats/date'
-import { InvalidDateValue } from '../../exceptions/invalid-format'
+import { InvalidDateValue } from '../../exceptions/invalid-value'
 
 export default function validateDate(key: string, value: any, format: AcceptedDateFormats) {
   if (Array.isArray(value)) return false

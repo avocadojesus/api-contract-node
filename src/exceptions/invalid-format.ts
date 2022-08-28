@@ -1,6 +1,6 @@
 import { PrimaryDatatype } from '../config'
 
-class InvalidFormat extends Error {
+export class InvalidFormat extends Error {
   private receivedFormat: any
   private key: string
 
@@ -8,10 +8,6 @@ class InvalidFormat extends Error {
     super()
     this.receivedFormat = receivedFormat
     this.key = key
-  }
-
-  get expectedType(): PrimaryDatatype {
-    throw 'Define on children'
   }
 
   get message() {
@@ -22,38 +18,8 @@ class InvalidFormat extends Error {
       The format we received from you is:
         '${this.receivedFormat}'.
 
-      The expected format was:
-        '${this.expectedType}'
+      The allowed datatypes are:
+        '${Object.values(PrimaryDatatype).join(', ')}'
     `
-  }
-}
-
-export class InvalidDatetimeValue extends InvalidFormat {
-  get expectedType() {
-    return PrimaryDatatype.Datetime
-  }
-}
-
-export class InvalidDateValue extends InvalidFormat {
-  get expectedType() {
-    return PrimaryDatatype.Date
-  }
-}
-
-export class InvalidStringValue extends InvalidFormat {
-  get expectedType() {
-    return PrimaryDatatype.String
-  }
-}
-
-export class InvalidNumberValue extends InvalidFormat {
-  get expectedType() {
-    return PrimaryDatatype.Number
-  }
-}
-
-export class InvalidBoolValue extends InvalidFormat {
-  get expectedType() {
-    return PrimaryDatatype.Bool
   }
 }
