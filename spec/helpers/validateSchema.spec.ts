@@ -1,12 +1,13 @@
-import validateSchema from '../../../src/helpers/validateSchema'
+import validateSchema from '../../src/helpers/validateSchema'
 import {
   InvalidHttpMethod,
   InvalidEndpointPath,
   InvalidConfigKey,
   InvalidSerializerDef,
+  InvalidDecorators,
   MissingColon,
   MissingPayloadShape,
-} from '../../../src/exceptions/invalid-schema'
+} from '../../src/exceptions/invalid-schema'
 
 describe ('validateSchema', () => {
   it ('does not raise with a valid schema', () => {
@@ -146,6 +147,124 @@ describe ('validateSchema', () => {
             })
           }
         ).toThrowError(new InvalidSerializerDef('user'))
+      })
+    })
+  })
+
+  context ('with invalid decorators passed to payload key', () => {
+    context ('with invalid bool decorator', () => {
+      it ('raises InvalidDecorator exception', () => {
+        expect(
+          () => {
+            validateSchema({
+              'POST:api/v1/cats': {
+                payload_shape: {
+                  likes_cats: 'bool:email',
+                },
+              },
+            })
+          }
+        ).toThrowError(new InvalidDecorators('likes_cats', ['email']))
+      })
+    })
+
+    context ('with invalid date decorator', () => {
+      it ('raises InvalidDecorators exception', () => {
+        expect(
+          () => {
+            validateSchema({
+              'POST:api/v1/cats': {
+                payload_shape: {
+                  created_at: 'date:yyyyymmdd',
+                },
+              },
+            })
+          }
+        ).toThrowError(new InvalidDecorators('created_at', ['yyyyymmdd']))
+      })
+    })
+
+    context ('with invalid datetime decorator', () => {
+      it ('raises InvalidDecorators exception', () => {
+        expect(
+          () => {
+            validateSchema({
+              'POST:api/v1/cats': {
+                payload_shape: {
+                  created_at: 'datetime:yyyymmdd',
+                },
+              },
+            })
+          }
+        ).toThrowError(new InvalidDecorators('created_at', ['yyyymmdd']))
+      })
+    })
+
+    context ('with invalid number decorator', () => {
+      it ('raises InvalidDecorators exception', () => {
+        expect(
+          () => {
+            validateSchema({
+              'POST:api/v1/cats': {
+                payload_shape: {
+                  id: 'number:bigolint',
+                },
+              },
+            })
+          }
+        ).toThrowError(new InvalidDecorators('id', ['bigolint']))
+      })
+    })
+
+    context ('with invalid string decorator', () => {
+      it ('raises InvalidDecorators exception', () => {
+        expect(
+          () => {
+            validateSchema({
+              'POST:api/v1/cats': {
+                payload_shape: {
+                  email: 'string:gmail',
+                },
+              },
+            })
+          }
+        ).toThrowError(new InvalidDecorators('email', ['gmail']))
+      })
+    })
+
+    context ('with invalid custom decorator', () => {
+      it ('raises InvalidDecorators exception', () => {
+        expect(
+          () => {
+            validateSchema({
+              'POST:api/v1/cats': {
+                payload_shape: {
+                  user: 'User:optsional',
+                },
+              },
+            })
+          }
+        ).toThrowError(new InvalidDecorators('user', ['optsional']))
+      })
+    })
+
+    context ('with nested values', () => {
+      it ('still raises InvalidDecorators exception', () => {
+        expect(
+          () => {
+            validateSchema({
+              'POST:api/v1/cats': {
+                payload_shape: {
+                  user: {
+                    preferences: {
+                      id: "number:bigolint"
+                    }
+                  }
+                },
+              },
+            })
+          }
+        ).toThrowError(new InvalidDecorators('id', ['bigolint']))
       })
     })
   })

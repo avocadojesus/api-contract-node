@@ -21,7 +21,7 @@ export default function generateResponse(
   const results: { [key: string]: any } = {}
 
   Object.keys(payloadShape).forEach(key => {
-    if (typeof payloadShape[key] === 'object') {
+    if (payloadShape[key] && typeof payloadShape[key] === 'object') {
       results[key] = generateResponse(payloadShape[key], options)
 
     } else {

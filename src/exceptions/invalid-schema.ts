@@ -101,6 +101,30 @@ export class InvalidConfigKey extends Error {
   }
 }
 
+export class InvalidDecorators extends Error {
+  private receivedDecorators: any
+  private key: string
+
+  constructor(key: string, receivedDecorators: string[]) {
+    super()
+    this.receivedDecorators = receivedDecorators
+    this.key = key
+  }
+
+  get message() {
+    return `
+      unrecognized decorators passed for payload key:
+        '${this.key}'
+
+      The decorators we received from you are:
+        '${this.receivedDecorators.join(', ')}'.
+
+      The decorators are:
+        *TODO*: list all decorators here
+    `
+  }
+}
+
 export class InvalidHttpMethod extends Error {
   private receivedHttpMethod: any
   private key: string
