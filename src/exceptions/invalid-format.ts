@@ -1,6 +1,6 @@
 import { PrimaryDatatype } from '../config'
 
-class UnrecognizedFormat extends Error {
+class InvalidFormat extends Error {
   private receivedFormat: any
   private key: string
 
@@ -28,33 +28,32 @@ class UnrecognizedFormat extends Error {
   }
 }
 
-export class UnrecognizedDatetimeFormat extends UnrecognizedFormat {
+export class InvalidDatetimeValue extends InvalidFormat {
   get expectedType() {
     return PrimaryDatatype.Datetime
   }
 }
 
-export class UnrecognizedDateFormat extends UnrecognizedFormat {
+export class InvalidDateValue extends InvalidFormat {
   get expectedType() {
     return PrimaryDatatype.Date
   }
 }
 
-export class UnrecognizedStringFormat extends UnrecognizedFormat {
+export class InvalidStringValue extends InvalidFormat {
   get expectedType() {
     return PrimaryDatatype.String
   }
 }
 
-export class UnrecognizedNumberFormat extends UnrecognizedFormat {
+export class InvalidNumberValue extends InvalidFormat {
   get expectedType() {
-    return PrimaryDatatype.String
+    return PrimaryDatatype.Number
   }
 }
 
-export class UnrecognizedBoolFormat extends UnrecognizedFormat {
+export class InvalidBoolValue extends InvalidFormat {
   get expectedType() {
-    return PrimaryDatatype.String
+    return PrimaryDatatype.Bool
   }
 }
-

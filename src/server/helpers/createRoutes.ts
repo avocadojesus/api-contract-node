@@ -1,11 +1,14 @@
 import { Express } from 'express'
 import generateResponse from './generateResponse'
 import readApiContractJSON from '../../helpers/readApiContractJSON'
+import validateSchema from '../../helpers/validateSchema'
 import { ApiContractOptions, HttpMethods } from '../../config'
 
 export default function createRoutes(app: Express, endpointJSONPath?: string) {
   const endpoints = readApiContractJSON(endpointJSONPath)
   const config: ApiContractOptions = endpoints.config
+
+  validateSchema(endpoints)
 
   Object
     .keys(endpoints)
@@ -36,7 +39,7 @@ export default function createRoutes(app: Express, endpointJSONPath?: string) {
 
       default:
         if (httpMethod !== 'config')
-          throw `Unrecognized HTTP method discovered in ${process.env.API_CONTRACT_PATH}: ${httpMethod}`
+          throw `Invalid HTTP method discovered in ${process.env.API_CONTRACT_PATH}: ${httpMethod}`
       }
     })
 }

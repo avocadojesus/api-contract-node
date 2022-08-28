@@ -13,6 +13,6 @@ export default function formattedNumber(format: AcceptedNumberFormats) {
     return parseInt(faker.datatype.bigInt().toString())
 
   default:
-    throw `Unrecognized number format: ${format}`
+    throw `Invalid number format: ${format}`
   }
 }

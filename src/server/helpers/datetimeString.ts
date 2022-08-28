@@ -4,7 +4,7 @@ import { DATETIME_FORMATS, AcceptedDatetimeFormats } from '../../config/formats/
 export default function datetimeString(format: AcceptedDatetimeFormats) {
   const date = DateTime.now()
   const formatConfig = DATETIME_FORMATS[format]
-  if (!formatConfig) throw `Unrecognized datetime format ${format}`
+  if (!formatConfig) throw `Invalid datetime format ${format}`
 
   if (format === AcceptedDatetimeFormats.ISO861) {
     return date.toISO()

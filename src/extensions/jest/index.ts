@@ -9,6 +9,7 @@ import { ApiContractOptions } from '../../config'
 import readApiContractJSON from '../../helpers/readApiContractJSON'
 import endpointKey from '../../helpers/endpointKey'
 import validate from '../../validate'
+import validateSchema from '../../helpers/validateSchema'
 
 expect.extend({
   toPassCompliance(received, httpMethod: string, endpointPath: string) {
@@ -16,6 +17,8 @@ expect.extend({
     const config: ApiContractOptions = endpoints.config
     const endpointConfig = endpoints[endpointKey(httpMethod, endpointPath)]
     if (!endpointConfig) throw `unable to find endpoint: ${endpointKey(httpMethod, endpointPath)}`
+
+    validateSchema(endpoints)
 
     const pass = validate(received, endpointConfig.payload_shape, config)
 

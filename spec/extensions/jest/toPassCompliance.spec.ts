@@ -8,6 +8,21 @@ function mockReadJSON(payload: { [key: string]: any }) {
 }
 
 describe ('toPassCompliance', () => {
+  it ('calls validateSchema', () => {
+    mockReadJSON({
+      'GET:/api/v1': {
+        // intentionally passing invalid payloadshape to trigger error,
+        // ensuring that validateSchema is called
+        payloadshape: {
+          id: 'number',
+        }
+      }
+    })
+    expect(() => {
+      expect({ id: 123 }).toPassCompliance('get', '/api/v1')
+    }).toThrowError()
+  })
+
   it ('succeeds when payload matches api-contract.json', () => {
     mockReadJSON({
       'GET:/api/v1': {

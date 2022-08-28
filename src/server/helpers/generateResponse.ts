@@ -39,7 +39,7 @@ function generateValue(format: string, options: ApiContractOptions={}) {
   case PrimaryDatatype.String:
     if (decorators.length) {
       const strFormat = getStringFormatFromDecorators(decorators)
-      if (!strFormat) throw `Unrecognized string format: ${strFormat}`
+      if (!strFormat) throw `Invalid string format: ${strFormat}`
 
       return isArray ? [ formattedString(strFormat), formattedString(strFormat) ] : formattedString(strFormat)
 
@@ -55,7 +55,7 @@ function generateValue(format: string, options: ApiContractOptions={}) {
   case PrimaryDatatype.Number:
     if (decorators.length) {
       const numFormat = getNumberFormatFromDecorators(decorators)
-      if (!numFormat) throw `Unrecognized number format: ${numFormat}`
+      if (!numFormat) throw `Invalid number format: ${numFormat}`
 
       return isArray ? [ formattedNumber(numFormat), formattedNumber(numFormat) ] : formattedNumber(numFormat)
 
@@ -79,7 +79,7 @@ function generateValue(format: string, options: ApiContractOptions={}) {
   case PrimaryDatatype.Date:
     if (decorators.length) {
       const dateFormat = getDateFormatFromDecorators(decorators)
-      if (!dateFormat) throw `Unrecognized date format: ${dateFormat}`
+      if (!dateFormat) throw `Invalid date format: ${dateFormat}`
 
       return isArray ? [ dateString(dateFormat), dateString(dateFormat) ] : dateString(dateFormat)
 
@@ -95,7 +95,7 @@ function generateValue(format: string, options: ApiContractOptions={}) {
   case PrimaryDatatype.Datetime:
     if (decorators.length) {
       const datetimeFormat = getDatetimeFormatFromDecorators(decorators)
-      if (!datetimeFormat) throw `Unrecognized datetime format: ${datetimeFormat}`
+      if (!datetimeFormat) throw `Invalid datetime format: ${datetimeFormat}`
 
       return isArray ? [ datetimeString(datetimeFormat), datetimeString(datetimeFormat) ] : datetimeString(datetimeFormat)
 
