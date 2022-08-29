@@ -1,7 +1,4 @@
 import { faker } from '@faker-js/faker'
-import { AcceptedDateFormats } from '../../config/formats/date'
-import { AcceptedDatetimeFormats } from '../../config/formats/datetime'
-import { AcceptedNumberFormats } from '../../config/formats/number'
 import dateString from './dateString'
 import datetimeString from './datetimeString'
 import formattedNumber from './formattedNumber'
@@ -34,7 +31,7 @@ export default function generateResponse(
 }
 
 function generateValue(format: string, options: ApiContractOptions={}) {
-  const { datatype, decorators, isArray, isOptional } = parseDatatype(format)
+  const { datatype, decorators, isArray } = parseDatatype(format)
 
   switch(datatype) {
   case PrimaryDatatype.String:

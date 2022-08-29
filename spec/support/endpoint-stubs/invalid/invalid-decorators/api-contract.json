@@ -1,0 +1,14 @@
+{
+  "GET:/api/v1/user": {
+    "payload_shape": {
+      "user": "User"
+    }
+  },
+  "config": {
+    "serializers": {
+      "User": {
+        "email": "string:uuidz"
+      }
+    }
+  }
+}

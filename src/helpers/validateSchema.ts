@@ -38,6 +38,8 @@ export default function validateSchema(schema: { [key: string]: any }) {
               .keys(schema.config.serializers || {})
               .forEach(serializerKey => {
                 if (!/^[A-Z]{1}[A-Za-z0-9]*$/.test(serializerKey)) throw new InvalidSerializerDef(serializerKey)
+                const serializer = schema.config.serializers[serializerKey]
+                validatePayloadKey(key, serializer)
               })
           })
 
