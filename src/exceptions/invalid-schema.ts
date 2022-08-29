@@ -120,7 +120,7 @@ export class InvalidDecorators extends Error {
         '${this.receivedDecorators.join(', ')}'.
 
       The decorators are:
-        ${allDecorators().map(decorator => `${decorator}\n        `)}
+        ${allDecorators().join(",\n        ")}
     `
   }
 }
