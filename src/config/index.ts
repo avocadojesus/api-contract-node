@@ -70,3 +70,20 @@ export enum CustomDecorators {
   Optional='optional',
 }
 
+export function allDecorators() {
+  const boolDecorators = Object.values(BoolDecorators).map(value => `bool:${value}`)
+  const dateDecorators = Object.values(DateDecorators).map(value => `date:${value}`)
+  const datetimeDecorators = Object.values(DatetimeDecorators).map(value => `datetime:${value}`)
+  const numberDecorators = Object.values(NumberDecorators).map(value => `number:${value}`)
+  const stringDecorators = Object.values(StringDecorators).map(value => `string:${value}`)
+  const customDecorators = Object.values(CustomDecorators).map(value => `<CustomValue>:${value}`)
+
+  return [
+    ...boolDecorators,
+    ...dateDecorators,
+    ...datetimeDecorators,
+    ...numberDecorators,
+    ...stringDecorators,
+    ...customDecorators,
+  ]
+}

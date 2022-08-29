@@ -1,4 +1,4 @@
-import { HttpMethods } from '../config'
+import { HttpMethods, allDecorators } from '../config'
 
 export class MissingColon extends Error {
   private key: string
@@ -120,7 +120,7 @@ export class InvalidDecorators extends Error {
         '${this.receivedDecorators.join(', ')}'.
 
       The decorators are:
-        *TODO*: list all decorators here
+        ${allDecorators().map(decorator => `${decorator}\n        `)}
     `
   }
 }
