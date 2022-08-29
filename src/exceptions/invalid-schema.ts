@@ -119,8 +119,27 @@ export class InvalidDecorators extends Error {
       The decorators we received from you are:
         '${this.receivedDecorators.join(', ')}'.
 
-      The decorators are:
+      A list of all available decorators are:
         ${allDecorators().join(",\n        ")}
+
+      *NOTE: In the case of custom types, the symbol '<CustomType>' should be replaced
+      by the name of your custom type (declared as a serializer within the config block
+      of your 'api-contract.json' file, like so:
+
+      {
+        "POST:/api/v1/users": {
+          "payload_shape": {
+            "user": "User:optional"
+          }
+        },
+        "config": {
+          "serializers": {
+            "User": {
+              "id": "string:uuid"
+            }
+          }
+        }
+      }
     `
   }
 }
