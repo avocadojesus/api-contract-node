@@ -3,7 +3,7 @@ import endpointTracker from './helpers/endpoint-tracker'
 import readApiContractJSON from './helpers/readApiContractJSON'
 import MissingEndpointCoverage from './exceptions/missing-endpoint-coverage'
 
-export function expectCompleteCompliance() {
+export function expectFullCompliance() {
   const endpoints = readApiContractJSON()
   const unprocessedEndpoints = Object
     .keys(endpoints)
