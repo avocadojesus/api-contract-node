@@ -6,6 +6,6 @@ export function expectCompleteCompliance() {
   const endpoints = readApiContractJSON()
   const unprocessedEndpoints = Object
     .keys(endpoints)
-    .filter(endpointKey => endpointKey !== 'config' && !!endpointTracker.endpointsProcessed[endpointKey])
+    .filter(endpointKey => endpointKey !== 'config' && !endpointTracker.endpointsProcessed[endpointKey])
   console.log("HIIIII", unprocessedEndpoints, endpointTracker.endpointsProcessed)
 }
