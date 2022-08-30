@@ -1,4 +1,5 @@
 import '../../../src/extensions/jest'
+import endpointTracker from '../../../src/helpers/endpoint-tracker'
 
 let mockedValue: { [key: string]: any } = {}
 jest.mock('../../../src/helpers/readApiContractJSON', () => jest.fn(() => mockedValue))
@@ -43,5 +44,18 @@ describe ('toPassCompliance', () => {
       }
     })
     expect({ id: '123' }).not.toPassCompliance('get', '/api/v1')
+  })
+
+  it ('logs results to endpoint tracker', () => {
+    mockReadJSON({
+      'GET:/api/v1': {
+        payload_shape: {
+          id: 'number',
+        }
+      }
+    })
+    endpointTracker.reset()
+    expect({ id: '123' }).not.toPassCompliance('get', '/api/v1')
+    expect(endpointTracker.endpointsProcessed).toEqual({ 'GET:/api/v1': { pass: false } })
   })
 })
