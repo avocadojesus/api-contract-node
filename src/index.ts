@@ -7,5 +7,5 @@ export function expectCompleteCompliance() {
   const unprocessedEndpoints = Object
     .keys(endpoints)
     .filter(endpointKey => endpointKey !== 'config' && !!endpointTracker.endpointsProcessed[endpointKey])
-  console.log("HIIIII", unprocessedEndpoints)
+  console.log("HIIIII", unprocessedEndpoints, endpointTracker.endpointsProcessed)
 }
