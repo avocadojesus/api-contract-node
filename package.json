@@ -5,6 +5,7 @@
   "repository": "https://github.com/avocadojesus/api-contract-node.git",
   "author": "avocadojesus <fred@platejoy.com>",
   "license": "MIT",
+  "type": "module",
   "scripts": {
     "build": "npx tsc",
     "start": "node dist/src/server/index.js",
