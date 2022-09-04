@@ -56,6 +56,6 @@ describe ('toPassCompliance', () => {
     })
     endpointTracker.reset()
     expect({ id: '123' }).not.toPassCompliance('get', '/api/v1')
-    expect(endpointTracker.endpointsProcessed).toEqual({ 'GET:/api/v1': { pass: false } })
+    expect(endpointTracker.processedEndpoints).toEqual({ 'GET:/api/v1': { pass: false } })
   })
 })

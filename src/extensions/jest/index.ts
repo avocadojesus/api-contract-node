@@ -20,7 +20,7 @@ expect.extend({
     validateSchema(endpoints)
 
     const pass = validate(received, endpointConfig.payload_shape, config)
-    endpointTracker.endpointsProcessed[endpointKey(httpMethod, endpointPath)] = { pass }
+    endpointTracker.processedEndpoints[endpointKey(httpMethod, endpointPath)] = { pass }
 
     return {
       message: () => {
