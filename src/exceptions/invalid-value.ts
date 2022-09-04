@@ -1,4 +1,5 @@
 import { PrimaryDatatype } from '../config'
+import DefineOnChildren from './internal/define-on-children'
 
 export class InvalidValue extends Error {
   private receivedFormat: any
@@ -11,7 +12,7 @@ export class InvalidValue extends Error {
   }
 
   get expectedType(): PrimaryDatatype {
-    throw 'Define on children'
+    throw new DefineOnChildren(this.constructor.name, 'get expectedType')
   }
 
   get message() {

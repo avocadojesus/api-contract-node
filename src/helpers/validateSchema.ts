@@ -22,6 +22,7 @@ import {
   NumberDecorators,
   CustomDecorators,
 } from '../config'
+import ShouldNeverBeCalled from '../exceptions/internal/should-never-be-called'
 
 export default function validateSchema(schema: { [key: string]: any }) {
   Object
@@ -71,7 +72,7 @@ function validatePayloadKey(key: string, val: any) {
   } else if (typeof val === 'string') {
     validateDecorators(key, val as string)
   } else {
-    throw 'should never reach this'
+    throw new ShouldNeverBeCalled("somehow a non-object/non-string made it through decorator analysis")
   }
 }
 
