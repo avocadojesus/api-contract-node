@@ -95,7 +95,74 @@ module.exports = {
 
 ### Test server
 
-Once all this is set up, you can write a feature spec in the `spec/features` dir, like so:
+The purpose of the test server provided by this package is to provide a dummy api server that can automatically provide responses in the payload shapes you expect, which can simulate the behavior of actually interacting with a real backend. All of the responses will be in the shapes given by the provided `api-contract.json` file.
+
+This means that if your `api-contract.json` file were to look like this:
+
+```json
+{
+  "GET:/api/v1/users": {
+    "payload_shape": {
+      "users": "User[]"
+    }
+  },
+  "config": {
+    "serializers": {
+      "User": {
+        "id": "number",
+        "email": "string:email"
+      }
+    }
+  }
+}
+```
+
+your response from the server would look something like:
+
+```js
+// GET /api/v1/users
+{
+  "users": [
+    { "id": 9999777, "email": "fred@coolguy.biz" },
+    { "id": 6565143, email: "james@who.net" }
+  ]
+}
+```
+
+#### Automagic param injection
+
+In addition to responding to the provided decorators (Note the above case, where the `email` decorator is leading to generated email addresses), the responses will also sensibly respond to url params. This means that given the following `api-contract.json`:
+
+```js
+{
+  "GET:/api/v1/users/:id": {
+    "payload_shape": {
+      "user": "User"
+    }
+  },
+  "config": {
+    "serializers": {
+      "User": {
+        "id": "number",
+        "email": "string:email"
+      }
+    }
+  }
+}
+```
+
+visiting a matching url would force an overwrite on the `id` payload value, setting it to whatever was passed in the params.
+
+```js
+// GET /api/v1/users/123
+{
+  "user": { "id": 123, "email": "fred@coolguy.biz" }
+}
+```
+
+#### Test server hello world spec
+
+You can write a helloworld feature spec in the `spec/features` dir to ensure that puppeteer/jest is wired up correctly like so:
 
 ```js
 // spec/features/api-contract-test-hello-world.spec.ts
@@ -111,6 +178,11 @@ describe('api-contract-node can launch', () => {
   })
 })
 ```
+
+Once you get this helloworld working, you can change the base api url within your app to point to this dummy server while running tests, allowing it to serve requests in the shapes you expect for testing purposes.
+
+
+#### Test server options
 
 Options can be passed via env vars to the underlying command by simply adding them to the server command portion of the `jest-puppeteer.config.js` file, like so:
 
@@ -129,7 +201,8 @@ server: {
 * `API_CONTRACT_PORT`: specifies the port to run the api contract test server on. If not specified, it will default to `4000`
 
 ### Jest helpers
-Additionally, a jest extension is applied, so if you are working on a backend node server with a JSON delivery system, you can use our custom jest helper to validate that the shape of your endponts matches your api contract, like so:
+
+In addition to the provided test server, a jest extension is applied upon importing this package, so if you are working on a backend node server with a JSON delivery system, you can use our custom jest helper to validate that the shape of your endponts matches your api contract, like so:
 
 ```js
 import 'api-contract-node'
@@ -179,3 +252,16 @@ which will pass with the following `api-contract.json`:
   }
 }
 ```
+
+Once all specs have been run, you can additionally run `expectFullCompliance` to ensure that your test suite has called `toPassCompliance` for every endpoint you have provided in your `api-contract.json` file.
+
+### expectFullCompliance example
+
+```js
+import { expectFullCompliance } from 'api-contract-node'
+
+// this needs to be run after all tests have finished:
+expectFullCompliance()
+```
+
+doing this will raise a detailed exception, informing you of which endpoints you have not covered yet, unless you have full coverage for all endpoints in your `api-contract.json` file.

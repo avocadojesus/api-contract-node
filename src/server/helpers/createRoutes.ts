@@ -19,23 +19,23 @@ export default function createRoutes(app: Express, endpointJSONPath?: string) {
 
       switch(httpMethod) {
       case HttpMethods.Get:
-        app.get(path, (_, res) => res.json(generateResponse(endpoints[endpointKey].payload_shape, config)))
+        app.get(path, (req, res) => res.json(generateResponse(endpoints[endpointKey].payload_shape, config, req.params)))
         break
 
       case HttpMethods.Post:
-        app.post(path, (_, res) => res.json(generateResponse(endpoints[endpointKey].payload_shape, config)))
+        app.post(path, (req, res) => res.json(generateResponse(endpoints[endpointKey].payload_shape, config, req.params)))
         break
 
       case HttpMethods.Put:
-        app.put(path, (_, res) => res.json(generateResponse(endpoints[endpointKey].payload_shape, config)))
+        app.put(path, (req, res) => res.json(generateResponse(endpoints[endpointKey].payload_shape, config, req.params)))
         break
 
       case HttpMethods.Patch:
-        app.patch(path, (_, res) => res.json(generateResponse(endpoints[endpointKey].payload_shape, config)))
+        app.patch(path, (req, res) => res.json(generateResponse(endpoints[endpointKey].payload_shape, config, req.params)))
         break
 
       case HttpMethods.Delete:
-        app.delete(path, (_, res) => res.json(generateResponse(endpoints[endpointKey].payload_shape, config)))
+        app.delete(path, (req, res) => res.json(generateResponse(endpoints[endpointKey].payload_shape, config, req.params)))
         break
 
       default:
