@@ -14,23 +14,33 @@ import { ApiContractOptions, PrimaryDatatype } from '../../config'
 export default function generateResponse(
   payloadShape: { [key: string]: any },
   options: ApiContractOptions={},
+  routeParams: { [key: string]: any }={}
  ) {
   const results: { [key: string]: any } = {}
 
   Object.keys(payloadShape).forEach(key => {
     if (payloadShape[key] && typeof payloadShape[key] === 'object') {
-      results[key] = generateResponse(payloadShape[key], options)
+      results[key] = generateResponse(payloadShape[key], options, routeParams)
+
+    } else if (routeParams[key] !== undefined) {
+      results[key] = routeParams[key]
 
     } else {
-      const val = generateValue(payloadShape[key], options)
+      const val = generateValue(payloadShape[key], options, routeParams)
       if (val === null) throw new InvalidFormat(key, payloadShape[key])
       results[key] = val
     }
   })
+
+//   Object.keys(routeParams).forEach(key => {
+//     if (typeof results[key] !== 'undefined')
+//       results[key] = routeParams[key]
+//   })
+
   return results
 }
 
-function generateValue(format: string, options: ApiContractOptions={}) {
+function generateValue(format: string, options: ApiContractOptions={}, routeParams: { [key: string]: any }={}) {
   const { datatype, decorators, isArray } = parseDatatype(format)
 
   switch(datatype) {
@@ -64,10 +74,10 @@ function generateValue(format: string, options: ApiContractOptions={}) {
       const registeredSerializer = serializers[datatype as string]
       return isArray ?
         [
-          generateResponse(registeredSerializer, options),
-          generateResponse(registeredSerializer, options),
+          generateResponse(registeredSerializer, options, routeParams),
+          generateResponse(registeredSerializer, options, routeParams),
         ] :
-        generateResponse(registeredSerializer, options)
+        generateResponse(registeredSerializer, options, routeParams)
     }
     return null
   }
