@@ -12,7 +12,7 @@ export default function createRoutes(app: Express, endpointJSONPath?: string) {
   validateSchema(endpoints)
 
   app.post('/__api_contract_internal/mock_endpoint', (req, res) => {
-    console.log('MOCKARONI AND CHEESE', req)
+    console.log('MOCKARONI AND CHEESE', req.body, req.query, req.params)
   })
 
   Object
