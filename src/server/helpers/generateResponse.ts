@@ -12,6 +12,7 @@ import { InvalidFormat } from '../../exceptions/invalid-format'
 import { ApiContractOptions, PrimaryDatatype } from '../../config'
 
 export default function generateResponse(
+  endpointKey: string,
   payloadShape: { [key: string]: any },
   options: ApiContractOptions={},
   routeParams: { [key: string]: any }={}
@@ -20,27 +21,29 @@ export default function generateResponse(
 
   Object.keys(payloadShape).forEach(key => {
     if (payloadShape[key] && typeof payloadShape[key] === 'object') {
-      results[key] = generateResponse(payloadShape[key], options, routeParams)
+      results[key] = generateResponse(endpointKey, payloadShape[key], options, routeParams)
 
     } else if (routeParams[key] !== undefined) {
       results[key] = routeParams[key]
 
     } else {
-      const val = generateValue(payloadShape[key], options, routeParams)
+      const val = generateValue(endpointKey, payloadShape[key], options, routeParams)
       if (val === null) throw new InvalidFormat(key, payloadShape[key])
       results[key] = val
     }
   })
 
-//   Object.keys(routeParams).forEach(key => {
-//     if (typeof results[key] !== 'undefined')
-//       results[key] = routeParams[key]
-//   })
+  const mocks = JSON.parse(process.env.API_CONTRACT_MOCKS || '{}')
+  if (mocks[endpointKey])
+    return {
+      ...results,
+      ...mocks[endpointKey],
+    }
 
   return results
 }
 
-function generateValue(format: string, options: ApiContractOptions={}, routeParams: { [key: string]: any }={}) {
+function generateValue(endpointKey: string, format: string, options: ApiContractOptions={}, routeParams: { [key: string]: any }={}) {
   const { datatype, decorators, isArray } = parseDatatype(format)
 
   switch(datatype) {
@@ -74,10 +77,10 @@ function generateValue(format: string, options: ApiContractOptions={}, routePara
       const registeredSerializer = serializers[datatype as string]
       return isArray ?
         [
-          generateResponse(registeredSerializer, options, routeParams),
-          generateResponse(registeredSerializer, options, routeParams),
+          generateResponse(endpointKey, registeredSerializer, options, routeParams),
+          generateResponse(endpointKey, registeredSerializer, options, routeParams),
         ] :
-        generateResponse(registeredSerializer, options, routeParams)
+        generateResponse(endpointKey, registeredSerializer, options, routeParams)
     }
     return null
   }

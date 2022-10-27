@@ -5,7 +5,7 @@ import { DATE_FORMATS } from '../../../src/config/formats/date'
 describe ('generateResponse', () => {
   context ('nesting', () => {
     it ('can parse a single-nested response payload', () => {
-      const res = generateResponse({
+      const res = generateResponse('GET:/', {
         results: {
           email: 'string',
         }
@@ -14,7 +14,7 @@ describe ('generateResponse', () => {
     })
 
     it ('can parse a double-nested response payload', () => {
-      const res = generateResponse({
+      const res = generateResponse('GET:/', {
         results: {
           user: {
             email: 'string',
@@ -25,7 +25,7 @@ describe ('generateResponse', () => {
     })
 
     it ('can parse a triple-nested response payload', () => {
-      const res = generateResponse({
+      const res = generateResponse('GET:/', {
         data: {
           results: {
             user: {

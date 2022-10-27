@@ -3,7 +3,7 @@ import generateResponse from '../../../src/server/helpers/generateResponse'
 describe ('generateResponse', () => {
   context ('when passing custom serializers', () => {
     it ('can parse all datatypes within custom time', () => {
-      const res = generateResponse({ user: 'User:optional', users: 'User:optional[]' }, {
+      const res = generateResponse('GET:/', { user: 'User:optional', users: 'User:optional[]' }, {
         serializers: {
           User: {
             id: 'string:uuid',

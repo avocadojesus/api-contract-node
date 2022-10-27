@@ -2,16 +2,16 @@ import generateResponse from '../../../src/server/helpers/generateResponse'
 
 describe ('generateResponse', () => {
   it ('injects actual param values when they are found in the result payload', () => {
-    let res = generateResponse({ id: 'number', email: 'string:email' }, {}, { id: 123 })
+    let res = generateResponse('', { id: 'number', email: 'string:email' }, {}, { id: 123 })
     expect(res.id).toEqual(123)
 
-    res = generateResponse({ id: 'number', email: 'string:email' }, {}, { email: 'james@james.james' })
+    res = generateResponse('', { id: 'number', email: 'string:email' }, {}, { email: 'james@james.james' })
     expect(res.email).toEqual('james@james.james')
   })
 
   context ('when using serializers/array values', () => {
     it ('injects param values, same as with non-serialized results', () => {
-      const res = generateResponse({ users: 'User[]' }, {
+      const res = generateResponse('', { users: 'User[]' }, {
         serializers: {
           User: {
             id: 'number',
@@ -26,7 +26,7 @@ describe ('generateResponse', () => {
 
   context ('route params found are not present in payload', () => {
     it ('does not inject the unfound params into the payload', () => {
-      const res = generateResponse({
+      const res = generateResponse('', {
         id: 'number',
         email: 'string:email',
       }, {}, { idz: 123 })

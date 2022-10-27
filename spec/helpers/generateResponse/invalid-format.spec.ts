@@ -6,7 +6,7 @@ import { InvalidFormat } from '../../../src/exceptions/invalid-format'
 describe ('generateResponse', () => {
   it ('raises exception when given an invalid format', () => {
     expect(() => {
-      generateResponse({ created_at: 'data' })
+      generateResponse('GET:/', { created_at: 'data' })
     }).toThrowError(new InvalidFormat('created_at', 'data'))
   })
 })
