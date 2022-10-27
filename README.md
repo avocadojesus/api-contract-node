@@ -265,3 +265,12 @@ expectFullCompliance()
 ```
 
 doing this will raise a detailed exception, informing you of which endpoints you have not covered yet, unless you have full coverage for all endpoints in your `api-contract.json` file.
+
+
+# Types
+
+to update types, clone `api-contract-node-types` repo and run:
+
+```
+cp -r ./dist/src/* ../api-contract-node-types
+```
