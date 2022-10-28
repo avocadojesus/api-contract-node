@@ -9,7 +9,7 @@ export default function createServer(endpointJSONPath?: string) {
   // app.use(bodyParser.json())
   // app.use(bodyParser.urlencoded({ extended: true }))
   app.use(express.json())
-  app.use(express.urlencoded({ extended: true }))
+  // app.use(express.urlencoded({ extended: true }))
   // app.use(express.urlencoded({ extended: true}))
 
   return app
