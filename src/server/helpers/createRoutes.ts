@@ -4,6 +4,7 @@ import readApiContractJSON from '../../helpers/readApiContractJSON'
 import validateSchema from '../../helpers/validateSchema'
 import ShouldNeverBeCalled from '../../exceptions/internal/should-never-be-called'
 import { ApiContractOptions, HttpMethods } from '../../config'
+import mockEndpoint from './mockEndpoint'
 
 export default function createRoutes(app: Express, endpointJSONPath?: string) {
   const endpoints = readApiContractJSON(endpointJSONPath)
@@ -12,7 +13,8 @@ export default function createRoutes(app: Express, endpointJSONPath?: string) {
   validateSchema(endpoints)
 
   app.post('/__api_contract_internal/mock_endpoint', (req, res) => {
-    console.log('MOCKARONI AND CHEESEguy', req, 'BODY: ', req.body, 'PARAMS: ', req.params, 'QUERY: ', req.query)
+    console.log('BODY: ', req.body)
+    mockEndpoint(req.body.httpMethod, req.body.path, req.body.payload)
   })
 
   Object
