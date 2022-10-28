@@ -1,5 +1,4 @@
 import express, { Express } from 'express'
-import bodyParser from 'body-parser'
 import createRoutes from './createRoutes'
 
 export default function createServer(endpointJSONPath?: string) {

@@ -13,7 +13,7 @@ export default function createRoutes(app: Express, endpointJSONPath?: string) {
   validateSchema(endpoints)
 
   app.post('/__api_contract_internal/mock_endpoint', (req, res) => {
-    console.log('BODY: ', req.body)
+    console.log('MOCK ENDPOINT RECEIVED!, BODY: ', req.body)
     mockEndpoint(req.body.httpMethod, req.body.path, req.body.payload)
   })
 

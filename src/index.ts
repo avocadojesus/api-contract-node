@@ -9,11 +9,14 @@ import _resetEndpointMocks from './server/helpers/resetEndpointMocks'
 export const expectFullCompliance = _expectFullCompliance
 export const mockEndpoint = async (httpMethod: string, path: string, payload: {[key: string]: any}) => {
   console.log('SENDING', { httpMethod, path, payload })
-  const res = await superagent
-    .post('http://localhost:4000/__api_contract_internal/mock_endpoint')
-    .send({ httpMethod, path, payload })
-    .set('Accept', 'application/json')
-  console.log(res)
-  // _mockEndpoint(httpMethod, path, payload)
+  try {
+    const res = await superagent
+      .post('http://localhost:4000/__api_contract_internal/mock_endpoint')
+      .send({ httpMethod, path, payload })
+      .set('Accept', 'application/json')
+    console.log(res)
+  } catch (error) {
+    throw 'FAILED TO MOCK ENDPOINT'
+  }
 }
 export const resetEndpointMocks = _resetEndpointMocks
