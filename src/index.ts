@@ -10,7 +10,7 @@ export const expectFullCompliance = _expectFullCompliance
 export const mockEndpoint = async (httpMethod: string, path: string, payload: {[key: string]: any}) => {
   const res = await superagent
     .post('http://localhost:4000/__api_contract_internal/mock_endpoint')
-    .send(JSON.stringify({ httpMethod, path, payload }))
+    .send({ httpMethod, path, payload })
   console.log(res)
   // _mockEndpoint(httpMethod, path, payload)
 }
