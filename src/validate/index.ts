@@ -11,6 +11,7 @@ import validateDatetime from './helpers/validateDatetime'
 import validateNumber from './helpers/validateNumber'
 import { AcceptedDateFormats } from '../config/formats/date'
 import { AcceptedDatetimeFormats } from '../config/formats/datetime'
+import getEnumValuesFromDecorators from '../helpers/getEnumValuesFromDecorators'
 
 export default function validate(
   results: { [key: string]: any },
@@ -44,8 +45,9 @@ function validateValue(key: string, value: any, format: string, options: ApiCont
   switch(datatype) {
   case PrimaryDatatype.String:
     const strFormat = decorators.length ? getStringFormatFromDecorators(decorators) : null
-    if (isArray) return !value.map((val: string) => validateString(val, strFormat)).includes(false)
-    return validateString(value, strFormat)
+    const enums = getEnumValuesFromDecorators(decorators)
+    if (isArray) return !value.map((val: string) => validateString(val, strFormat, enums)).includes(false)
+    return validateString(value, strFormat, enums)
 
   case PrimaryDatatype.Number:
     const numFormat = decorators.length ? getNumberFormatFromDecorators(decorators) : null

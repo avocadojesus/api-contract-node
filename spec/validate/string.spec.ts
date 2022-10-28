@@ -74,6 +74,16 @@ describe ('validate', () => {
         expect(validate({ name: false }, { name: 'string:fullname' })).toEqual(false)
       })
     })
+
+    context ('enum decorator is passed', () => {
+      it ('returns true when detecting a valid enum value', () => {
+        expect(validate({ type: 'cool' }, { type: 'string:enum{cool notcool}' })).toEqual(true)
+      })
+
+      it ('returns false when detecting an invalid name', () => {
+        expect(validate({ type: 'uncool' }, { type: 'string:enum{cool notcool}' })).toEqual(false)
+      })
+    })
   })
 })
 

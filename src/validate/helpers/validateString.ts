@@ -6,7 +6,7 @@ import {
   FULL_NAME_REGEX,
 } from '../../config/formats/string'
 
-export default function validateString(value: any, format: string | null) {
+export default function validateString(value: any, format: string | null, enums: string[] = []) {
   if (Array.isArray(value)) return false
   if (!value || typeof value === 'boolean') return false
 
@@ -24,6 +24,7 @@ export default function validateString(value: any, format: string | null) {
     return FULL_NAME_REGEX.test(value)
 
   default:
+    if (enums.length) return enums.includes(value)
     return typeof value === 'string'
   }
 }
