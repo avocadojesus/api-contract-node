@@ -30,6 +30,7 @@
     "typescript": "^4.7.4"
   },
   "devDependencies": {
+    "@types/cors": "^2.8.12",
     "concurrently": "^7.3.0",
     "jest": "^28.1.3",
     "jest-plugin-context": "^2.9.0",
