@@ -151,6 +151,22 @@ describe ('validateSchema', () => {
     })
   })
 
+  context ('with string enum decorator', () => {
+    it ('passes', () => {
+      expect(
+        () => {
+          validateSchema({
+            'POST:api/v1/cats': {
+              payload_shape: {
+                type: 'string:enum{black other}',
+              },
+            },
+          })
+        }
+      ).not.toThrowError()
+    })
+  })
+
   context ('with invalid decorators passed to payload key', () => {
     context ('with invalid bool decorator', () => {
       it ('raises InvalidDecorator exception', () => {

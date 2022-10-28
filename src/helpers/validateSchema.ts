@@ -23,6 +23,7 @@ import {
   CustomDecorators,
 } from '../config'
 import ShouldNeverBeCalled from '../exceptions/internal/should-never-be-called'
+import getEnumValuesFromDecorators from './getEnumValuesFromDecorators'
 
 export default function validateSchema(schema: { [key: string]: any }) {
   Object
@@ -97,7 +98,10 @@ function validateDecorators(key: string, val: string) {
       break
 
     case PrimaryDatatype.String:
-      if (!Object.values(StringDecorators).includes(decorator as StringDecorators)) throw new InvalidDecorators(key, decorators)
+      if (
+        !Object.values(StringDecorators).includes(decorator as StringDecorators) &&
+          !getEnumValuesFromDecorators([decorator]).length
+      ) throw new InvalidDecorators(key, decorators)
       break
 
     default:
