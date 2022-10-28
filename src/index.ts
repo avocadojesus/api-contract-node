@@ -11,6 +11,7 @@ export const mockEndpoint = async (httpMethod: string, path: string, payload: {[
   const res = await superagent
     .post('http://localhost:4000/__api_contract_internal/mock_endpoint')
     .send({ httpMethod, path, payload })
+    .set('Accept', 'application/json')
   console.log(res)
   // _mockEndpoint(httpMethod, path, payload)
 }
