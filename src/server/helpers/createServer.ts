@@ -7,6 +7,7 @@ export default function createServer(endpointJSONPath?: string) {
   createRoutes(app, endpointJSONPath)
 
   app.use(bodyParser.json())
+  app.use(bodyParser.urlencoded({ extended: true }))
   // app.use(express.urlencoded({ extended: true}))
 
   return app
