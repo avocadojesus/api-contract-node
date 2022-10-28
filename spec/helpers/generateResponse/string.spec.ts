@@ -40,5 +40,10 @@ describe ('generateResponse', () => {
       const res = generateResponse('GET:/', { name: 'string:fullname' })
       expect(res.name).toMatch(/^[A-Za-z'.]* [A-Za-z'.]*\s?[A-Za-z'.]{0,}\s?[A-Za-z'.]{0,}$/)
     })
+
+    it ('can parse string:enum{thing otherthing} response', () => {
+      const res = generateResponse('GET:/', { type: 'string:enum{cool lame}' })
+      expect(['cool', 'lame']).toContain(res.type)
+    })
   })
 })

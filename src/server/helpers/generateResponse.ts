@@ -7,6 +7,7 @@ import getDateFormatFromDecorators from '../../helpers/getDateFormatFromDecorato
 import getDatetimeFormatFromDecorators from '../../helpers/getDatetimeFormatFromDecorators'
 import getNumberFormatFromDecorators from '../../helpers/getNumberFormatFromDecorators'
 import getStringFormatFromDecorators from '../../helpers/getStringFormatFromDecorators'
+import getEnumValuesFromDecorators from '../../helpers/getEnumValuesFromDecorators'
 import parseDatatype from '../../helpers/parseDatatype'
 import { InvalidFormat } from '../../exceptions/invalid-format'
 import { ApiContractOptions, PrimaryDatatype } from '../../config'
@@ -49,7 +50,11 @@ function generateValue(endpointKey: string, format: string, options: ApiContract
   switch(datatype) {
   case PrimaryDatatype.String:
     const strFormat = getStringFormatFromDecorators(decorators)
-    return isArray ? [ formattedString(strFormat), formattedString(strFormat) ] : formattedString(strFormat)
+    const enums = getEnumValuesFromDecorators(decorators)
+    return isArray ? [
+      formattedString(strFormat, enums),
+      formattedString(strFormat, enums)
+    ] : formattedString(strFormat, enums)
 
   case PrimaryDatatype.Number:
     const numFormat = getNumberFormatFromDecorators(decorators)

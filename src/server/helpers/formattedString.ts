@@ -1,7 +1,9 @@
 import { faker } from '@faker-js/faker'
 import { AcceptedStringFormats } from '../../config/formats/string'
+import { ENUM_REGEX } from '../../config/formats/enum'
+import random from '../../helpers/random'
 
-export default function formattedString(format: AcceptedStringFormats | null) {
+export default function formattedString(format: AcceptedStringFormats | null, enums: string[]=[]) {
   switch(format) {
   case AcceptedStringFormats.UUID:
     return faker.datatype.uuid()
@@ -16,6 +18,10 @@ export default function formattedString(format: AcceptedStringFormats | null) {
     return faker.name.fullName()
 
   default:
-    return faker.lorem.word()
+    if (ENUM_REGEX.test(format || '')) {
+      return enums[random(0, enums.length - 1)]
+    } else {
+      return faker.lorem.word()
+    }
   }
 }

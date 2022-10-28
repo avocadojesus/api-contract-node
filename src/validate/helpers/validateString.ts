@@ -1,4 +1,10 @@
-import { AcceptedStringFormats, UUID_REGEX, NAME_REGEX, EMAIL_REGEX, FULL_NAME_REGEX } from '../../config/formats/string'
+import {
+  AcceptedStringFormats,
+  UUID_REGEX,
+  NAME_REGEX,
+  EMAIL_REGEX,
+  FULL_NAME_REGEX,
+} from '../../config/formats/string'
 
 export default function validateString(value: any, format: string | null) {
   if (Array.isArray(value)) return false
