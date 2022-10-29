@@ -1,6 +1,7 @@
+import '../global.d.ts'
+
 // importing this file will automatically extend jest
 import './extensions/jest'
-import '../global.d.ts'
 import superagent from 'superagent'
 
 import _expectFullCompliance from './extensions/jest/expectFullCompliance'
