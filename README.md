@@ -11,7 +11,7 @@ This repo provides a dummy REST server running express which serves dummy endpoi
 ## Installation
 
 ```
-yarn add https://github.com/avocadojesus/api-contract-node.git
+yarn add api-contract-node
 ```
 
 ## Setup
