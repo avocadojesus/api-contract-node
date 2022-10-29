@@ -1,5 +1,6 @@
 // importing this file will automatically extend jest
 import './extensions/jest'
+import '../global.d'
 import superagent from 'superagent'
 
 import _expectFullCompliance from './extensions/jest/expectFullCompliance'
