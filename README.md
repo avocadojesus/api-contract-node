@@ -1,5 +1,7 @@
 # Api Contract
 
+> Note: This repo is not actively maintained, but feel free to submit pull requests or fork for your own use.
+
 API Contract was a concept developed to solve integration testing challenges with split frontend/backend teams on separate repos/tech stacks. For more information on how/why it was developed, see the [Api Contract wiki](https://github.com/avocadojesus/api-contract-node/wiki). Additionally, if you would like more information on the json api, that can be found [here (subnested in the wiki)](https://github.com/avocadojesus/api-contract-node/wiki/JSON-API).
 
 # api-contract-node
