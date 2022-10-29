@@ -1,9 +1,9 @@
-import { Express } from 'express'
+import { Express, Request, Response } from 'express'
 import generateResponse from './generateResponse'
 import readApiContractJSON from '../../helpers/readApiContractJSON'
 import validateSchema from '../../helpers/validateSchema'
 import ShouldNeverBeCalled from '../../exceptions/internal/should-never-be-called'
-import { ApiContractOptions, HttpMethods } from '../../config'
+import { ApiContractOptions, EndpointConfig, HttpMethods } from '../../config'
 import mockEndpoint from './mockEndpoint'
 
 export default function createRoutes(app: Express, endpointJSONPath?: string) {
@@ -22,26 +22,33 @@ export default function createRoutes(app: Express, endpointJSONPath?: string) {
     .forEach(endpointKey => {
       const [httpMethod] = endpointKey.split(':')
       const path = endpointKey.replace(new RegExp(`^${httpMethod}:`), '')
+      const endpointConfig: EndpointConfig = endpoints[endpointKey]
+      const handler = (req: Request, res: Response) =>
+        res
+          .status(parseInt(endpointConfig.status || '200'))
+          .json(
+            generateResponse(endpointKey, endpointConfig.payload_shape, config, req.params)
+          )
 
       switch(httpMethod) {
       case HttpMethods.Get:
-        app.get(path, (req, res) => res.json(generateResponse(endpointKey, endpoints[endpointKey].payload_shape, config, req.params)))
+        app.get(path, handler)
         break
 
       case HttpMethods.Post:
-        app.post(path, (req, res) => res.json(generateResponse(endpointKey, endpoints[endpointKey].payload_shape, config, req.params)))
+        app.post(path, handler)
         break
 
       case HttpMethods.Put:
-        app.put(path, (req, res) => res.json(generateResponse(endpointKey, endpoints[endpointKey].payload_shape, config, req.params)))
+        app.put(path, handler)
         break
 
       case HttpMethods.Patch:
-        app.patch(path, (req, res) => res.json(generateResponse(endpointKey, endpoints[endpointKey].payload_shape, config, req.params)))
+        app.patch(path, handler)
         break
 
       case HttpMethods.Delete:
-        app.delete(path, (req, res) => res.json(generateResponse(endpointKey, endpoints[endpointKey].payload_shape, config, req.params)))
+        app.delete(path, handler)
         break
 
       default:

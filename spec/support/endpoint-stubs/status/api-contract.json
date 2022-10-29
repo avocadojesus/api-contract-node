@@ -1,0 +1,10 @@
+{
+  "GET:/api/v1": {
+    "payload_shape": {
+      "id": "number",
+      "name": "string",
+      "likes_cats": "bool"
+    },
+    "status": "201"
+  }
+}

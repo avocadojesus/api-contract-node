@@ -2,6 +2,11 @@ export interface ApiContractOptions {
   serializers?: { [key: string]: any }
 }
 
+export interface EndpointConfig {
+  payload_shape: {[key: string]: any}
+  status?: string
+}
+
 export enum PrimaryDatatype {
   Bool='bool',
   Date='date',
