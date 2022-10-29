@@ -1,4 +1,4 @@
-import '../global.d.ts'
+// import '../global.d.ts'
 
 // importing this file will automatically extend jest
 import './extensions/jest'
@@ -20,3 +20,17 @@ export const mockEndpoint = async (httpMethod: string, path: string, payload: {[
   }
 }
 export const resetEndpointMocks = _resetEndpointMocks
+
+declare global {
+  namespace NodeJS {
+    interface ProcessEnv {
+      API_CONTRACT_MOCKS: string
+    }
+  }
+
+  namespace jest {
+    interface Matchers<R> {
+      toPassCompliance(httpMethod: string, endpointPath: string): R;
+    }
+  }
+}
