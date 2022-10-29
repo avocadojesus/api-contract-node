@@ -6,4 +6,10 @@ declare global {
       API_CONTRACT_MOCKS: string
     }
   }
+
+  namespace jest {
+    interface Matchers<R> {
+      toPassCompliance(httpMethod: string, endpointPath: string): R;
+    }
+  }
 }
