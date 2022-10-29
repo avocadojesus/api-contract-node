@@ -11,6 +11,7 @@ import getEnumValuesFromDecorators from '../../helpers/getEnumValuesFromDecorato
 import parseDatatype from '../../helpers/parseDatatype'
 import { InvalidFormat } from '../../exceptions/invalid-format'
 import { ApiContractOptions, PrimaryDatatype } from '../../config'
+import getCountFromDecorators from '../../helpers/getCountFromDecorators'
 
 export default function generateResponse(
   endpointKey: string,
@@ -46,45 +47,46 @@ export default function generateResponse(
 
 function generateValue(endpointKey: string, format: string, options: ApiContractOptions={}, routeParams: { [key: string]: any }={}) {
   const { datatype, decorators, isArray } = parseDatatype(format)
+  const count = getCountFromDecorators(decorators)
+  const countArray = [...Array(count).keys()]
 
   switch(datatype) {
   case PrimaryDatatype.String:
     const strFormat = getStringFormatFromDecorators(decorators)
     const enums = getEnumValuesFromDecorators(decorators)
-    return isArray ? [
-      formattedString(strFormat, enums),
+    return isArray ?
+      countArray.map(() => formattedString(strFormat, enums)) :
       formattedString(strFormat, enums)
-    ] : formattedString(strFormat, enums)
 
   case PrimaryDatatype.Number:
     const numFormat = getNumberFormatFromDecorators(decorators)
-    return isArray ? [ formattedNumber(numFormat), formattedNumber(numFormat) ] : formattedNumber(numFormat)
+    return isArray ?
+      countArray.map(() => formattedNumber(numFormat)) :
+      formattedNumber(numFormat)
 
   case PrimaryDatatype.Bool:
     return isArray ?
-      [
-        faker.datatype.boolean(),
-        faker.datatype.boolean()
-      ] :
+      countArray.map(() => faker.datatype.boolean()) :
       faker.datatype.boolean()
 
   case PrimaryDatatype.Date:
     const dateFormat = getDateFormatFromDecorators(decorators)
-    return isArray ? [ dateString(dateFormat), dateString(dateFormat) ] : dateString(dateFormat)
+    return isArray ?
+      countArray.map(() => dateString(dateFormat)) :
+      dateString(dateFormat)
 
   case PrimaryDatatype.Datetime:
     const datetimeFormat = getDatetimeFormatFromDecorators(decorators)
-    return isArray ? [ datetimeString(datetimeFormat), datetimeString(datetimeFormat) ] : datetimeString(datetimeFormat)
+    return isArray ?
+      countArray.map(() => datetimeString(datetimeFormat)) :
+      datetimeString(datetimeFormat)
 
   default:
     const { serializers } = options
     if (serializers && serializers[datatype as string]) {
       const registeredSerializer = serializers[datatype as string]
       return isArray ?
-        [
-          generateResponse(endpointKey, registeredSerializer, options, routeParams),
-          generateResponse(endpointKey, registeredSerializer, options, routeParams),
-        ] :
+        countArray.map(() => generateResponse(endpointKey, registeredSerializer, options, routeParams)) :
         generateResponse(endpointKey, registeredSerializer, options, routeParams)
     }
     return null

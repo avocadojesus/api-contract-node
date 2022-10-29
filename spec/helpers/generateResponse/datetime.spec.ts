@@ -10,7 +10,7 @@ describe ('generateResponse', () => {
 
   it ('can parse a datetime[] response', () => {
     const res = generateResponse('GET:/', { dates: 'datetime[]' })
-    expect(res.dates.length).toEqual(2)
+    expect(res.dates.length).toEqual(6)
     expect(res.dates[0]).toMatch(ISO861_DATETIME_REGEX)
     expect(res.dates[1]).toMatch(ISO861_DATETIME_REGEX)
   })

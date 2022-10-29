@@ -10,7 +10,7 @@ describe ('generateResponse', () => {
 
   it ('can parse a bool[] response', () => {
     const res = generateResponse('GET:/', { preferences: 'bool[]' })
-    expect(res.preferences.length).toEqual(2)
+    expect(res.preferences.length).toEqual(6)
     expect(typeof res.preferences[0]).toEqual('boolean')
     expect(typeof res.preferences[1]).toEqual('boolean')
   })

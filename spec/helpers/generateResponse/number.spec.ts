@@ -10,7 +10,7 @@ describe ('generateResponse', () => {
 
   it ('can parse a number[] response', () => {
     const res = generateResponse('GET:/', { id: 'number[]' })
-    expect(res.id.length).toEqual(2)
+    expect(res.id.length).toEqual(6)
     expect(typeof res.id[0]).toEqual('number')
     expect(typeof res.id[1]).toEqual('number')
   })
