@@ -1,6 +1,6 @@
 {
     "name": "@types/api-contract-node",
-    "version": "1.0.16",
+    "version": "1.0.19",
     "description": "global TypeScript definitions for api-contract-node",
     "license": "MIT",
     "main": "",
