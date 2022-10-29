@@ -7,7 +7,7 @@
   "author": "avocadojesus <fred@platejoy.com>",
   "license": "MIT",
   "scripts": {
-    "build": "cp global.d.ts ./dist/src/global.d.ts && npx tsc",
+    "build": "cp global.d.ts ./dist/global.d.ts && npx tsc",
     "start": "node dist/src/server/index.js",
     "dev": "concurrently \"npx tsc --watch\" \"nodemon -q dist/src/server/dev.js\"",
     "spec": "jest",
