@@ -1,6 +1,6 @@
 {
   "name": "api-contract-node",
-  "version": "1.0.13",
+  "version": "1.0.14",
   "main": "dist/src/index.js",
   "types": "dist/src/index.d.ts",
   "repository": "https://github.com/avocadojesus/api-contract-node.git",
@@ -11,8 +11,9 @@
     "start": "node dist/src/server/index.js",
     "dev": "concurrently \"npx tsc --watch\" \"nodemon -q dist/src/server/dev.js\"",
     "spec": "jest",
-    "postinstall": "yarn build",
-    "prepublish": "yarn build"
+    "postinstall": "yarn build && yarn copy-globals",
+    "prepublish": "yarn build",
+    "copy-globals": "mkdir ../@types/api-contract-node && cp ./jest.config.js ../@types/api-contract-node/"
   },
   "dependencies": {
     "@faker-js/faker": "^7.4.0",
