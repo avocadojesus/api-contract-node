@@ -64,28 +64,7 @@ The above jest config works well with `nuxt`, but may need to be tweaked if you 
 
 ### Using React:
 
-Add the react server to the jest-puppeteer server bootstrap, like so:
-
-```js
-// jest-puppeteer.config.js
-
-module.exports = {
-  server: [
-    {
-      command: 'yarn --cwd ./node_modules/api-contract-node start',
-      launchTimeout: 15000,
-      debug: true,
-    },
-    {
-      command: 'BROWSER=none yarn start',
-      launchTimeout: 15000,
-      debug: true,
-    }
-  ],
-}
-```
-
-Next, add a paired-down version of the jest.features.config.js file listed above:
+Add a paired-down version of the jest.features.config.js file listed above:
 
 ```js
 // jest.features.config.js
@@ -127,82 +106,9 @@ Make sure to have the following libraries added to your dev dependencies:
 yarn add --dev puppeteer ts-jest @jest/expect
 ```
 
-Now, in a file within your react project,
-
-```ts
-// src/App.tsx
-
-import axios from 'axios'
-import React, { useEffect, useState } from 'react'
-
-interface User {
-  id: number
-  email: string
-}
-
-function App() {
-  const [users, setUsers] = useState<User[]>([])
-  const fetchUsers = async () => {
-    const res = await axios.get('http://localhost:4000/api/v1/users')
-    setUsers(res.data.users)
-  }
-
-  useEffect(() => {
-    fetchUsers()
-  }, [])
-
-  return (
-    <div className="App">
-      <h1>Users</h1>
-      <ul>
-        {users.map((user, index) =>
-          <li>{user.email}</li>
-        )}
-      </ul>
-    </div>
-  )
-}
-
-export default App
-```
-
-And within a feature spec:
-
-```ts
-import axios from 'axios'
-
-describe('api-contract-node can launch', () => {
-  beforeEach(async () => {
-    await mockAPIEndpoint('/api/v1/users', {
-      users: [
-        {
-          id: 123,
-          email: 'fred@fred.fred',
-        }
-      ]
-    })
-    await page.goto('http://localhost:3000')
-  })
-
-  it ('Lists user emails on page', async () => {
-    await expect(page).toMatchTextContent('fred@fred.fred')
-  })
-})
-
-function mockAPIEndpoint(path: string, payload: any, httpMethod: string = 'get') {
-  axios.post('http://localhost:4000/__api_contract_internal/mock_endpoint', {
-    httpMethod,
-    path,
-    payload,
-  })
-}
-
-export default {}
-```
-
 ### add command to run feature specs
 
-Once you have added this file, you can configure a separate test script for running end-to-end tests, like so:
+Once finished with the forementioned configuration, you can configure a separate test script for running end-to-end tests, like so:
 
 ```js
 // package.json
@@ -229,6 +135,27 @@ module.exports = {
     launchTimeout: 15000, // the default is 5000, which is generally too short for a dry run.
     debug: true, // set to true if your server is having trouble starting.
   },
+}
+```
+
+If using React, add the react server to the jest-puppeteer server bootstrap, like so:
+
+```js
+// jest-puppeteer.config.js
+
+module.exports = {
+  server: [
+    {
+      command: 'yarn --cwd ./node_modules/api-contract-node start',
+      launchTimeout: 15000,
+      debug: true,
+    },
+    {
+      command: 'BROWSER=none yarn start',
+      launchTimeout: 15000,
+      debug: true,
+    }
+  ],
 }
 ```
 
@@ -319,6 +246,82 @@ describe('api-contract-node can launch', () => {
   })
 })
 ```
+
+#### End-to-end test in react
+
+Though we can do this in any language, this example will be done in React. We are going to tap into our api-contract server to seed dummy user data to our app.
+
+```ts
+// src/App.tsx
+
+import axios from 'axios'
+import React, { useEffect, useState } from 'react'
+
+interface User {
+  id: number
+  email: string
+}
+
+function App() {
+  const [users, setUsers] = useState<User[]>([])
+  const fetchUsers = async () => {
+    const res = await axios.get('http://localhost:4000/api/v1/users')
+    setUsers(res.data.users)
+  }
+
+  useEffect(() => {
+    fetchUsers()
+  }, [])
+
+  return (
+    <div className="App">
+      <h1>Users</h1>
+      <ul>
+        {users.map((user, index) =>
+          <li>{user.email}</li>
+        )}
+      </ul>
+    </div>
+  )
+}
+
+export default App
+```
+
+And within a feature specs, we can stub the endpoint to ensure it returns a predictable payload (which is only necessary if you want to test against hard content being returned by the mock server). Here, we will stub the `GET api/v1/users` endpoint, having it instead return only a single user with the email `fred@fred.fred`. Then we will make sure that that email shows up on the page, using puppeteer to drive through our spec file.
+
+```ts
+import axios from 'axios'
+
+describe('api-contract-node can launch', () => {
+  beforeEach(async () => {
+    await mockAPIEndpoint('/api/v1/users', {
+      users: [
+        {
+          id: 123,
+          email: 'fred@fred.fred',
+        }
+      ]
+    })
+    await page.goto('http://localhost:3000')
+  })
+
+  it ('Lists user emails on page', async () => {
+    await expect(page).toMatchTextContent('fred@fred.fred')
+  })
+})
+
+function mockAPIEndpoint(path: string, payload: any, httpMethod: string = 'get') {
+  axios.post('http://localhost:4000/__api_contract_internal/mock_endpoint', {
+    httpMethod,
+    path,
+    payload,
+  })
+}
+
+export default {}
+```
+
 
 Once you get this helloworld working, you can change the base api url within your app to point to this dummy server while running tests, allowing it to serve requests in the shapes you expect for testing purposes.
 
