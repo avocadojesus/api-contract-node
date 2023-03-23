@@ -61,6 +61,145 @@ module.exports = {
 
 The above jest config works well with `nuxt`, but may need to be tweaked if you are using a different framework or stack.
 
+
+### Using React:
+
+Add the react server to the jest-puppeteer server bootstrap, like so:
+
+```js
+// jest-puppeteer.config.js
+
+module.exports = {
+  server: [
+    {
+      command: 'yarn --cwd ./node_modules/api-contract-node start',
+      launchTimeout: 15000,
+      debug: true,
+    },
+    {
+      command: 'BROWSER=none yarn start',
+      launchTimeout: 15000,
+      debug: true,
+    }
+  ],
+}
+```
+
+Next, add a paired-down version of the jest.features.config.js file listed above:
+
+```js
+// jest.features.config.js
+
+module.exports = {
+  preset: 'jest-puppeteer',
+  moduleFileExtensions: [
+    'ts',
+    'tsx',
+    'js',
+    'json'
+  ],
+  transform: {
+    '^.+\\.ts$': 'ts-jest',
+    '^.+\\.tsx$': 'ts-jest',
+    '^.+\\.js$': 'babel-jest',
+  },
+}
+```
+
+Additionally, update your tsconfig.json to include necessary types for feature specs
+
+```json
+// tsconfig.json
+"compilerOptions": {
+  ...
+  "types": [
+    "@types/jest",
+    "puppeteer",
+    "jest-environment-puppeteer",
+    "expect-puppeteer"
+  ]
+}
+```
+
+Make sure to have the following libraries added to your dev dependencies:
+
+```bash
+yarn add --dev puppeteer ts-jest @jest/expect
+```
+
+Now, in a file within your react project,
+
+```ts
+// src/App.tsx
+
+import axios from 'axios'
+import React, { useEffect, useState } from 'react'
+
+interface User {
+  id: number
+  email: string
+}
+
+function App() {
+  const [users, setUsers] = useState<User[]>([])
+  const fetchUsers = async () => {
+    const res = await axios.get('http://localhost:4000/api/v1/users')
+    setUsers(res.data.users)
+  }
+
+  useEffect(() => {
+    fetchUsers()
+  }, [])
+
+  return (
+    <div className="App">
+      <h1>Users</h1>
+      <ul>
+        {users.map((user, index) =>
+          <li>{user.email}</li>
+        )}
+      </ul>
+    </div>
+  )
+}
+
+export default App
+```
+
+And within a feature spec:
+
+```ts
+import axios from 'axios'
+
+describe('api-contract-node can launch', () => {
+  beforeEach(async () => {
+    await mockAPIEndpoint('/api/v1/users', {
+      users: [
+        {
+          id: 123,
+          email: 'fred@fred.fred',
+        }
+      ]
+    })
+    await page.goto('http://localhost:3000')
+  })
+
+  it ('Lists user emails on page', async () => {
+    await expect(page).toMatchTextContent('fred@fred.fred')
+  })
+})
+
+function mockAPIEndpoint(path: string, payload: any, httpMethod: string = 'get') {
+  axios.post('http://localhost:4000/__api_contract_internal/mock_endpoint', {
+    httpMethod,
+    path,
+    payload,
+  })
+}
+
+export default {}
+```
+
 ### add command to run feature specs
 
 Once you have added this file, you can configure a separate test script for running end-to-end tests, like so:
